@@ -16,10 +16,11 @@ import { checkAllowance,
     sendEVMTX, 
     getTxData,
     toWei } from './src/web3.js';
-import { bridgeETHToLinea } from './function/bridge.js';
+import { bridgeETHToEthereum, bridgeETHToLinea } from './function/bridge.js';
 import readline from 'readline-sync';
-import chalk from 'chalk';
 import * as dotenv from 'dotenv';
+import { wrapETH } from './function/DEX.js';
+import { swapETHToTokenSync, swapTokenToETHSync } from './function/syncSwap.js';
 dotenv.config();
 
 const getBalanceWalletLinea = async(privateKey) => {
@@ -38,17 +39,31 @@ const getBalanceWalletLinea = async(privateKey) => {
     }
 
     const mainStage = [
-        'BRIDGE',
+        'Bridge',
+        'DEX',
+        'SyncSwap',
         'EMPTY',
         'EMPTY',
         'EMPTY',
-        'EMPTY',
-        'EMPTY',
-        'OTHER'
+        'Other'
     ];
 
     const stageBridge = [
         'Bridge ETH Ethereum -> Linea',
+        'Bridge ETH Linea -> Ethereum',
+    ];
+
+    const stageDEX = [
+        'Wrap ETH',
+    ];
+
+    const stageSync = [
+        'Swap ETH -> ceBUSD',
+        'Swap ceBUSD -> ETH',
+        'Swap ETH -> ceBNB',
+        'Swap ceBNB -> ETH',
+        'Swap ETH -> ceMATIC',
+        'Swap ceMATIC -> ETH',
     ];
 
     const stageOther = [
@@ -70,12 +85,13 @@ const getBalanceWalletLinea = async(privateKey) => {
         if (index1 == -1) { process.exit() };
         log('info', `Start ${stageBridge[index1]}`, 'green');
     } else if (index == 1) {
-        index2 = readline.keyInSelect(hapiStage, 'Choose stage!');
+        index2 = readline.keyInSelect(stageDEX, 'Choose stage!');
         if (index2 == -1) { process.exit() };
-        log('info', `Start ${hapiStage[index2]}`, 'green');
+        log('info', `Start ${stageDEX[index2]}`, 'green');
     } else if (index == 2) {
-        index3 = readline.keyInSelect(galaxyStage, 'Choose stage!');
+        index3 = readline.keyInSelect(stageSync, 'Choose stage!');
         if (index3 == -1) { process.exit() };
+        log('info', `Start ${stageSync[index3]}`, 'green');
     } else if (index == 3) {
         index4 = readline.keyInSelect(otherStage, 'Choose stage!');
         if (index4 == -1) { process.exit() };
@@ -98,16 +114,43 @@ const getBalanceWalletLinea = async(privateKey) => {
             log('info', `Wallet ${i+1}: ${privateToAddress(wallet[i])}`, 'blue');
         } catch (err) { throw new Error('Error: Add Private Keys!') };
 
-        if (index1 == 0) { //BRIDGE STAGE
-            await bridgeETHToLinea(wallet[i]);
+        try {
+            if (index1 == 0) { //BRIDGE STAGE
+                await bridgeETHToLinea(wallet[i]);
+            } else if (index1 == 1) {
+                await bridgeETHToEthereum(wallet[i]);
+            }
+
+            if (index2 == 0) { //DEX STAGE
+                await wrapETH(info.rpcLinea, wallet[i]);
+            }
+
+            if (index3 == 0) { //SYNC STAGE
+                await swapETHToTokenSync(info.ceBUSD, wallet[i]);
+            } else if (index3 == 1) {
+                await swapTokenToETHSync(info.ceBUSD, wallet[i]);
+            } else if (index3 == 2) {
+                await swapETHToTokenSync(info.ceBNB, wallet[i]);
+            } else if (index3 == 3) {
+                await swapTokenToETHSync(info.ceBNB, wallet[i]);
+            } else if (index3 == 4) {
+                await swapETHToTokenSync(info.ceMATIC, wallet[i]);
+            } else if (index3 == 5) {
+                await swapTokenToETHSync(info.ceMATIC, wallet[i]);
+            }
+    
+            if (index7 == 0) { //OTHER STAGE
+                pauseWalletTime = 0;
+                await getBalanceWalletLinea(wallet[i]);
+            }
+        } catch (error) {
+            log('error', error, 'red');
+            return;
         }
 
-        if (index7 == 0) { //OTHER STAGE
-            pauseWalletTime = 0;
-            await getBalanceWalletLinea(wallet[i]);
+        if (i + 1 != wallet.length) {
+            await timeout(pauseWalletTime);
         }
-
-        await timeout(pauseWalletTime);
     }
 
     log('info', 'Process End!', 'bgMagentaBright');

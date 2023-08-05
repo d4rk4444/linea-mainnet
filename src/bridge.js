@@ -6,6 +6,11 @@ import { add } from 'mathjs';
 export const dataBridgeMainet = async(amount, fee, addressFrom) => {
     return await getDataTx(info.rpcEthereum, bridgeAbi, info.bridgeMainet, 'sendMessage',
         [addressFrom, numberToHex(fee), '0x'],
-        add(amount, fee), addressFrom
-    );
+        add(amount, fee), addressFrom);
+}
+
+export const dataBridgeMainetBack = async(amount, fee, addressFrom) => {
+    return await getDataTx(info.rpcLinea, bridgeAbi, info.bridgeLinea, 'sendMessage',
+        [addressFrom, fee, '0x'],
+        add(amount, fee), addressFrom);
 }

@@ -2,20 +2,29 @@ import Web3 from 'web3';
 import { info, privateToAddress } from './other.js';
 import { abiToken } from './abi.js';
 
-export const getProvider = async(rpc) => {
+export const getProvider = (rpc) => {
     const w3 = new Web3(new Web3.providers.HttpProvider(rpc));
     return w3;
 }
 
 export const getDataTx = async(rpc, abi, addressContract, nameFunc, property, amountTx, addressFrom) => {
-    const w3 = await getProvider(rpc);
+    const w3 = getProvider(rpc);
     const contract = new w3.eth.Contract(abi, addressContract);
 
     const data = contract.methods[nameFunc](...property);
 
     const encodeABI = data.encodeABI();
     const estimateGas = await data.estimateGas({ from: addressFrom, value: amountTx });
-    return { encodeABI, estimateGas };
+    return { encodeABI, estimateGas, addressContract };
+}
+
+export const getDataCall = async(rpc, abi, addressContract, nameFunc, property) => {
+    const w3 = getProvider(rpc);
+    const contract = new w3.eth.Contract(abi, addressContract);
+
+    const data = await contract.methods[nameFunc](...property).call();
+
+    return data;
 }
 
 export const getGasPrice = async(rpcProvider) => {
@@ -29,6 +38,16 @@ export const getGasPrice = async(rpcProvider) => {
 export const toWei = (amount, type) => {
     const w3 = new Web3();
     return w3.utils.toWei(amount, type);
+}
+
+export const fromWei = (amount, type) => {
+    const w3 = new Web3();
+    return w3.utils.fromWei(amount, type);
+}
+
+export const encodeParams = (types, params) => {
+    const w3 = new Web3();
+    return w3.eth.abi.encodeParameters(types, params);
 }
 
 export const numberToHex = (number) => {
@@ -86,13 +105,13 @@ export const checkAllowance = async(rpc, tokenAddress, walletAddress, spender) =
     return data;
 }
 
-export const dataApprove = async(rpc, tokenAddress, contractAddress, amountAprove, fromAddress) => {
-    const w3 = new Web3(new Web3.providers.HttpProvider(rpc));
+export const dataApprove = async(rpc, tokenAddress, contractAddress, amountApprove, fromAddress) => {
+    const w3 = getProvider(rpc);
     const contract = new w3.eth.Contract(abiToken, w3.utils.toChecksumAddress(tokenAddress));
 
     const data = contract.methods.approve(
         contractAddress,
-        w3.utils.numberToHex(amountAprove),
+        numberToHex(amountApprove),
     );
     const encodeABI = data.encodeABI();
     const estimateGas = await data.estimateGas({ from: fromAddress });

@@ -32,10 +32,20 @@ export const info = {
     pauseTime: generateRandomAmount(process.env.TIMEOUT_ACTION_SEC_MIN * 1000, process.env.TIMEOUT_ACTION_SEC_MAX * 1000, 0),
     increaseGasPrice: Number(process.env.Increase_Gas_Price),
     needGasPrice: Number(process.env.Gas_Bridge_Max),
+    typeValue: process.env.Type_Value,
     valueBridge: generateRandomAmount(process.env.Value_Bridge_Min, process.env.Value_Bridge_Max, 5),
-    typeBridge: process.env.Type_Bridge,
+    valueSwap: generateRandomAmount(process.env.Value_Swap_Min, process.env.Value_Swap_Max, 5),
+    slippageSwap: (100 - Number(process.env.Slippage_Max)) / 100,
     bridgeMainet: '0xd19d4B5d358258f05D7B411E21A1460D11B0876F',
+    bridgeLinea: '0x508Ca82Df566dCD1B0DE8296e70a96332cD644ec',
     WETH: '0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f',
+    ETH: '0x0000000000000000000000000000000000000000',
+    SyncRouter: '0x80e38291e06339d10AAB483C65695D004dBD5C69',
+    SyncPoolFactory: '0x37BAc764494c8db4e54BDE72f6965beA9fa0AC2d',
+    ceBUSD: '0x7d43AABC515C356145049227CeE54B608342c0ad',
+    ceBNB: '0xf5C6825015280CdfD0b56903F9F8B5A2233476F5',
+    ceMATIC: '0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8',
+    ceAVAX: '0x5471ea8f739dd37E9B81Be9c5c77754D8AA953E4',
 }
 
 export const timeout = ms => new Promise(res => setTimeout(res, ms));
@@ -65,4 +75,8 @@ export const parseFile = (file) => {
 export const privateToAddress = (privateKey) => {
     const w3 = new Web3();
     return w3.eth.accounts.privateKeyToAccount(privateKey).address;
+}
+
+export const getNameKey = (object, property) => {
+    return Object.keys(object)[Object.values(object).findIndex(e => e == property)];
 }

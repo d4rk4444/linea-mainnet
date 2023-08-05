@@ -92,3 +92,11 @@ export const bridgeAbi = [
         ]
     }
 ];
+
+export const dexAbi = [
+    {
+        "type":"function",
+        "name":"deposit",
+        "inputs": []
+    }
+];
