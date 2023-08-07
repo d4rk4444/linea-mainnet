@@ -15,7 +15,7 @@ export const getDataTx = async(rpc, abi, addressContract, nameFunc, property, am
 
     const encodeABI = data.encodeABI();
     const estimateGas = await data.estimateGas({ from: addressFrom, value: amountTx });
-    return { encodeABI, estimateGas, addressContract };
+    return { encodeABI, estimateGas, addressContract, amountTx };
 }
 
 export const getDataCall = async(rpc, abi, addressContract, nameFunc, property) => {

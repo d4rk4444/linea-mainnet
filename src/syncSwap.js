@@ -1,6 +1,6 @@
 import { info } from './other.js';
 import { SSRouterAbi, SSClassicPoolFactoryAbi, SSPoolMasterAbi, SSLPPoolAbi } from './abiSync.js';
-import { multiply, add } from 'mathjs';
+import { multiply } from 'mathjs';
 import { encodeParams, getDataCall, getDataTx, numberToHex } from './web3.js';
 
 export const getPool = async(tokenA, tokenB) => {
@@ -28,7 +28,7 @@ export const getAmountIn = async(addressLP, tokenOut, amountOut, sender) => {
         info.rpcLinea,
         SSLPPoolAbi,
         addressLP,
-        'getAmountOut',
+        'getAmountIn',
         [tokenOut, numberToHex(amountOut), sender]
     );
 }

@@ -17,10 +17,12 @@ import { checkAllowance,
     getTxData,
     toWei } from './src/web3.js';
 import { bridgeETHToEthereum, bridgeETHToLinea } from './function/bridge.js';
-import readline from 'readline-sync';
-import * as dotenv from 'dotenv';
 import { wrapETH } from './function/DEX.js';
 import { swapETHToTokenSync, swapTokenToETHSync } from './function/syncSwap.js';
+import { swapETHToTokenLineaSwap, swapTokenToETHLineaSwap } from './function/lineaSwap.js';
+import readline from 'readline-sync';
+import * as dotenv from 'dotenv';
+import { mintDomenName } from './function/lineans.js';
 dotenv.config();
 
 const getBalanceWalletLinea = async(privateKey) => {
@@ -42,9 +44,10 @@ const getBalanceWalletLinea = async(privateKey) => {
         'Bridge',
         'DEX',
         'SyncSwap',
+        'LineaSwap',
         'EMPTY',
         'EMPTY',
-        'EMPTY',
+        'LineaName',
         'Other'
     ];
 
@@ -64,6 +67,27 @@ const getBalanceWalletLinea = async(privateKey) => {
         'Swap ceBNB -> ETH',
         'Swap ETH -> ceMATIC',
         'Swap ceMATIC -> ETH',
+        'Swap ETH -> ceAVAX',
+        'Swap ceAVAX -> ETH',
+        'Random ETH -> ceBUSD/ceBNB/ceMATIC/ceAVAX',
+        'Swap All Tokens -> ETH',
+    ];
+
+    const stageLineaSwap = [
+        'Swap ETH -> ceBUSD',
+        'Swap ceBUSD -> ETH',
+        'Swap ETH -> ceBNB',
+        'Swap ceBNB -> ETH',
+        'Swap ETH -> ceMATIC',
+        'Swap ceMATIC -> ETH',
+        'Swap ETH -> ceAVAX',
+        'Swap ceAVAX -> ETH',
+        'Random ETH -> ceBUSD/ceBNB/ceMATIC/ceAVAX',
+        'Swap All Tokens -> ETH',
+    ];
+
+    const stageLineans = [
+        'Mint Domen Name 0.0027ETH',
     ];
 
     const stageOther = [
@@ -78,6 +102,7 @@ const getBalanceWalletLinea = async(privateKey) => {
     let index5;
     let index6;
     let index7;
+    let index8;
     if (index == -1) { process.exit() };
     log('info', `Start ${mainStage[index]}`, 'green');
     if (index == 0) {
@@ -93,8 +118,9 @@ const getBalanceWalletLinea = async(privateKey) => {
         if (index3 == -1) { process.exit() };
         log('info', `Start ${stageSync[index3]}`, 'green');
     } else if (index == 3) {
-        index4 = readline.keyInSelect(otherStage, 'Choose stage!');
+        index4 = readline.keyInSelect(stageLineaSwap, 'Choose stage!');
         if (index4 == -1) { process.exit() };
+        log('info', `Start ${stageLineaSwap[index4]}`, 'green');
     } else if (index == 4) {
         index5 = readline.keyInSelect(otherStage, 'Choose stage!');
         if (index5 == -1) { process.exit() };
@@ -102,9 +128,13 @@ const getBalanceWalletLinea = async(privateKey) => {
         index6 = readline.keyInSelect(otherStage, 'Choose stage!');
         if (index6 == -1) { process.exit() };
     } else if (index == 6) {
-        index7 = readline.keyInSelect(stageOther, 'Choose stage!');
+        index7 = readline.keyInSelect(stageLineans, 'Choose stage!');
         if (index7 == -1) { process.exit() };
-        log('info', `Start ${stageOther[index7]}`, 'green');
+        log('info', `Start ${stageLineans[index7]}`, 'green');
+    } else if (index == 7) {
+        index8 = readline.keyInSelect(stageOther, 'Choose stage!');
+        if (index8 == -1) { process.exit() };
+        log('info', `Start ${stageOther[index8]}`, 'green');
     }
     
     
@@ -137,9 +167,51 @@ const getBalanceWalletLinea = async(privateKey) => {
                 await swapETHToTokenSync(info.ceMATIC, wallet[i]);
             } else if (index3 == 5) {
                 await swapTokenToETHSync(info.ceMATIC, wallet[i]);
+            } else if (index3 == 6) {
+                await swapETHToTokenSync(info.ceAVAX, wallet[i]);
+            } else if (index3 == 7) {
+                await swapTokenToETHSync(info.ceAVAX, wallet[i]);
+            } else if (index3 == 8) {
+                const arrTokens = [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX];
+                await swapETHToTokenSync(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
+            } else if (index3 == 9) {
+                const arrTokens = [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX];
+                for (let i = 0; i < arrTokens.length; i++) {
+                    await swapTokenToETHSync(arrTokens[i], wallet[i]);
+                }
+            }
+
+            if (index4 == 0) { //LINEASWAP STAGE
+                await swapETHToTokenLineaSwap(info.ceBUSD, wallet[i]);
+            } else if (index4 == 1) {
+                await swapTokenToETHLineaSwap(info.ceBUSD, wallet[i]);
+            } else if (index4 == 2) {
+                await swapETHToTokenLineaSwap(info.ceBNB, wallet[i]);
+            } else if (index4 == 3) {
+                await swapTokenToETHLineaSwap(info.ceBNB, wallet[i]);
+            } else if (index4 == 4) {
+                await swapETHToTokenLineaSwap(info.ceMATIC, wallet[i]);
+            } else if (index4 == 5) {
+                await swapTokenToETHLineaSwap(info.ceMATIC, wallet[i]);
+            } else if (index4 == 6) {
+                await swapETHToTokenLineaSwap(info.ceAVAX, wallet[i]);
+            } else if (index4 == 7) {
+                await swapTokenToETHLineaSwap(info.ceAVAX, wallet[i]);
+            } else if (index4 == 8) {
+                const arrTokens = [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX];
+                await swapETHToTokenLineaSwap(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
+            } else if (index4 == 9) {
+                const arrTokens = [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX];
+                for (let i = 0; i < arrTokens.length; i++) {
+                    await swapTokenToETHLineaSwap(arrTokens[i], wallet[i]);
+                }
+            }
+
+            if (index7 == 0) { //LINEANS STAGE
+                await mintDomenName(wallet[i]);
             }
     
-            if (index7 == 0) { //OTHER STAGE
+            if (index8 == 0) { //OTHER STAGE
                 pauseWalletTime = 0;
                 await getBalanceWalletLinea(wallet[i]);
             }

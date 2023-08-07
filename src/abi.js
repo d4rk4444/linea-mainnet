@@ -100,3 +100,159 @@ export const dexAbi = [
         "inputs": []
     }
 ];
+
+export const lineaSwapAbi = [
+    {
+        "type":"function",
+        "name":"factory",
+        "inputs": [],
+        "outputs": [{"name":"","type":"address"}]
+    },
+    {
+        "type":"function",
+        "name":"getPair",
+        "inputs": [
+          {"name":"tokenA","type":"address"},
+          {"name":"tokenB","type":"address"}
+        ],
+        "outputs": [{"name":"pair","type":"address"}]
+    },
+    {
+        "type":"function",
+        "name":"getAmountsOut",
+        "inputs": [
+            {"name":"amountIn","type":"uint256"},
+            {"name":"path","type":"address[]"},
+        ],
+        "outputs": [
+            {"name":"amounts","type":"uint256[]"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"getAmountsIn",
+        "inputs": [
+            {"name":"amountOut","type":"uint256"},
+            {"name":"path","type":"address[]"},
+        ],
+        "outputs": [
+            {"name":"amounts","type":"uint256[]"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"swapExactETHForTokens",
+        "inputs": [
+            {"name":"amountOutMin","type":"uint256"},
+            {"name":"path","type":"address[]"},
+            {"name":"to","type":"address"},
+            {"name":"deadline","type":"uint256"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"swapExactTokensForETH",
+        "inputs": [
+            {"name":"amountIn","type":"uint256"},
+            {"name":"amountOutMin","type":"uint256"},
+            {"name":"path","type":"address[]"},
+            {"name":"to","type":"address"},
+            {"name":"deadline","type":"uint256"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"getReserves",
+        "inputs": [],
+        "outputs": [
+          {"name":"_reserve0","type":"uint112"},
+          {"name":"_reserve1","type":"uint112"},
+          {"name":"_blockTimestampLast","type":"uint32"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"totalSupply",
+        "inputs": [],
+        "outputs": [{"name":"","type":"uint256"}]
+    },
+    {
+        "type":"function",
+        "name":"addLiquidityETH",
+        "inputs": [
+            {"name":"token","type":"address"},
+            {"name":"amountTokenDesired","type":"uint256"},
+            {"name":"amountTokenMin","type":"uint256"},
+            {"name":"amountETHMin","type":"uint256"},
+            {"name":"to","type":"address"},
+            {"name":"deadline","type":"uint256"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"addLiquidityETH",
+        "inputs": [
+            {"name":"token","type":"address"},
+            {"name":"amountTokenDesired","type":"uint256"},
+            {"name":"amountTokenMin","type":"uint256"},
+            {"name":"amountETHMin","type":"uint256"},
+            {"name":"to","type":"address"},
+            {"name":"deadline","type":"uint256"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"deposit",
+        "inputs": [
+            {"name":"_pid","type":"uint256"},
+            {"name":"_amount","type":"uint256"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"userInfo",
+        "inputs": [
+            {"name":"","type":"uint256"},
+            {"name":"","type":"address"}
+        ],
+        "outputs": [
+          {"name":"amount","type":"uint256"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"withdraw",
+        "inputs": [
+            {"name":"_pid","type":"uint256"},
+            {"name":"_amount","type":"uint256"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"removeLiquidityETH",
+        "inputs": [
+            {"name":"token","type":"address"},
+            {"name":"liquidity","type":"uint256"},
+            {"name":"amountTokenMin","type":"uint256"},
+            {"name":"amountETHMin","type":"uint256"},
+            {"name":"to","type":"address"},
+            {"name":"deadline","type":"uint256"}
+        ]
+    },
+];
+
+export const lineansAbi = [
+    {
+        "type":"function",
+        "name":"directRegister",
+        "inputs": [
+            {"name":"","type":"string"},
+            {"name":"","type":"address"},
+            {"name":"","type":"uint256"},
+            {"name":"","type":"string"},
+            {"name":"","type":"address"},
+            {"name":"","type":"address"},
+            {"name":"","type":"bytes32"}
+        ]
+    }
+];
