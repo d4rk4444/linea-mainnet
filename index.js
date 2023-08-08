@@ -5,34 +5,16 @@ import { info,
     generateRandomAmount,
     privateToAddress, 
     log } from './src/other.js';
-import { checkAllowance,
-    getETHAmount,
-    getAmountToken,
-    getTokenId,
-    dataApprove,
-    getGasPrice,
-    dataSendToken,
-    dataApproveNFT,
-    sendEVMTX, 
-    getTxData,
-    toWei } from './src/web3.js';
 import { bridgeETHToEthereum, bridgeETHToLinea } from './function/bridge.js';
 import { wrapETH } from './function/DEX.js';
 import { swapETHToTokenSync, swapTokenToETHSync } from './function/syncSwap.js';
 import { swapETHToTokenLineaSwap, swapTokenToETHLineaSwap } from './function/lineaSwap.js';
+import { swapETHToTokenEcho, swapTokenToETHEcho } from './function/echoDEX.js';
+import { mintDomenName } from './function/lineans.js';
+import { getBalanceLinea } from './function/other.js';
 import readline from 'readline-sync';
 import * as dotenv from 'dotenv';
-import { mintDomenName } from './function/lineans.js';
 dotenv.config();
-
-const getBalanceWalletLinea = async(privateKey) => {
-    const address = privateToAddress(privateKey);
-
-    await getETHAmount(info.rpcLinea, address).then(async(res) => {
-        log('info',  'Balance Linea', 'magentaBright');
-        log('info', `${parseFloat(res / 10**18).toFixed(4)}ETH`);
-    });
-}
 
 (async() => {
     const wallet = parseFile('private.txt');
@@ -45,7 +27,7 @@ const getBalanceWalletLinea = async(privateKey) => {
         'DEX',
         'SyncSwap',
         'LineaSwap',
-        'EMPTY',
+        'EchoDEX',
         'EMPTY',
         'LineaName',
         'Other'
@@ -86,12 +68,17 @@ const getBalanceWalletLinea = async(privateKey) => {
         'Swap All Tokens -> ETH',
     ];
 
+    const stageEchoDEX = [
+        'Swap ETH -> ceBUSD',
+        'Swap ceBUSD -> ETH',
+    ];
+
     const stageLineans = [
         'Mint Domen Name 0.0027ETH',
     ];
 
     const stageOther = [
-        'Start',
+        'Check Balance Linea',
     ];
 
     const index = readline.keyInSelect(mainStage, 'Choose stage!');
@@ -122,8 +109,9 @@ const getBalanceWalletLinea = async(privateKey) => {
         if (index4 == -1) { process.exit() };
         log('info', `Start ${stageLineaSwap[index4]}`, 'green');
     } else if (index == 4) {
-        index5 = readline.keyInSelect(otherStage, 'Choose stage!');
+        index5 = readline.keyInSelect(stageEchoDEX, 'Choose stage!');
         if (index5 == -1) { process.exit() };
+        log('info', `Start ${stageEchoDEX[index5]}`, 'green');
     } else if (index == 5) {
         index6 = readline.keyInSelect(otherStage, 'Choose stage!');
         if (index6 == -1) { process.exit() };
@@ -207,13 +195,20 @@ const getBalanceWalletLinea = async(privateKey) => {
                 }
             }
 
+            if (index5 == 0) { //ECHODEX STAGE
+                await swapETHToTokenEcho(info.ceBUSD, wallet[i]);
+            } else if (index5 == 1) {
+                await swapTokenToETHEcho(info.ceBUSD, wallet[i]);
+            }
+
             if (index7 == 0) { //LINEANS STAGE
                 await mintDomenName(wallet[i]);
             }
     
             if (index8 == 0) { //OTHER STAGE
                 pauseWalletTime = 0;
-                await getBalanceWalletLinea(wallet[i]);
+                await getBalanceLinea(wallet);
+                return;
             }
         } catch (error) {
             log('error', error, 'red');

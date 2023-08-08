@@ -43,12 +43,14 @@ export const info = {
     SyncRouter: '0x80e38291e06339d10AAB483C65695D004dBD5C69',
     SyncPoolFactory: '0x37BAc764494c8db4e54BDE72f6965beA9fa0AC2d',
     LineaSwapRouter: '0x3228d205A96409a07A44D39916b6EA7B765D61F4',
+    EchoDEXRouter: '0xF82537FB6c56A3b50092d3951f84F5F6c835b4F5',
+    EchoDEXFee: '0x3F0CA22aF602B42cdDB4E9153F525Dc9dE12eaE7',
     ceBUSD: '0x7d43AABC515C356145049227CeE54B608342c0ad',
     ceBNB: '0xf5C6825015280CdfD0b56903F9F8B5A2233476F5',
     ceMATIC: '0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8',
     ceAVAX: '0x5471ea8f739dd37E9B81Be9c5c77754D8AA953E4',
     Lineans: '0xda4c3eb39707ad82ea7a31afd42bdf850fed8f41',
-    domenLenghtMax: process.env.Lenght_Max,
+    domenLenghtMax: process.env.Length_Max,
 }
 
 export const timeout = ms => new Promise(res => setTimeout(res, ms));

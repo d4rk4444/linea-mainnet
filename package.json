@@ -1,6 +1,6 @@
 {
   "name": "linea-mainet",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -16,6 +16,7 @@
     "dotenv": "^16.3.1",
     "mathjs": "^11.9.1",
     "readline-sync": "^1.4.10",
+    "table": "^6.8.1",
     "web3": "^1.10.0"
   }
 }

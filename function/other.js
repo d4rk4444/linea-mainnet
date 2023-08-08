@@ -1,6 +1,23 @@
 import { multiply } from "mathjs";
-import { generateRandomAmount, info, log, parseFile, timeout } from "../src/other.js";
-import { getETHAmount, getGasPrice, toWei } from "../src/web3.js";
+import { generateRandomAmount, info, log, parseFile, privateToAddress, timeout } from "../src/other.js";
+import { fromWei, getAmountToken, getETHAmount, getGasPrice, toWei } from "../src/web3.js";
+import { table } from 'table';
+
+export const getBalanceLinea = async(wallets) => {
+    let dataTabl = [
+        ['#', 'Wallet', 'ETH', 'BUSD']
+    ];
+
+    for (let i = 0; i < wallets.length; i++) {
+        const address = privateToAddress(wallets[i]);
+
+        const amountETH = parseFloat(fromWei(await getETHAmount(info.rpcLinea, address), 'ether')).toFixed(5);
+        const amountBUSD = parseFloat(fromWei(await getAmountToken(info.rpcLinea, info.ceBUSD, address), 'ether')).toFixed(2);
+        const nextArr = [`${i + 1}`, address, amountETH, amountBUSD];
+        dataTabl.push(nextArr);
+    }
+    log('info', `\n${table(dataTabl)}`);
+}
 
 export const waitGasPrice = async(rpc, needGasPrice, pauseTime) => {
     while (true) {

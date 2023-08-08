@@ -256,3 +256,77 @@ export const lineansAbi = [
         ]
     }
 ];
+
+export const echoDEXAbi = [
+    {
+        "type":"function",
+        "name":"multicall",
+        "inputs": [
+            {"name":"deadline","type":"uint256"},
+            {"name":"data","type":"bytes[]"},
+        ],
+    },
+    {
+        "type":"function",
+        "name":"exactInputSingle",
+        "inputs": [
+            {
+                "name":"params",
+                "type":"tuple",
+                "components": [
+                    {"name": "tokenIn","type": "address"},
+                    {"name": "tokenOut","type": "address"},
+                    {"name": "fee","type": "uint24"},
+                    {"name": "recipient","type": "address"},
+                    {"name": "amountIn","type": "uint256"},
+                    {"name": "amountOutMinimum","type": "uint256"},
+                    {"name": "sqrtPriceLimitX96","type": "uint160"},
+                ]
+            }
+        ]
+    },
+    {
+        "type":"function",
+        "name":"unwrapWETH9",
+        "inputs": [
+            {"name":"amountMinimum","type":"uint256"},
+            {"name":"recipient","type":"address"},
+        ],
+    },
+    {
+        "type":"function",
+        "name":"quoteExactOutputSingle",
+        "inputs": [
+            {
+                "name":"params",
+                "type":"tuple",
+                "components": [{
+                    "name": "tokenIn",
+                    "type": "address"
+                },
+                {
+                    "name": "tokenOut",
+                    "type": "address"
+                },
+                {
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "name": "fee",
+                    "type": "uint24"
+                },
+                {
+                    "name": "sqrtPriceLimitX96",
+                    "type": "uint160"
+                }]
+            }
+        ],
+        "outputs": [
+            {"name":"amountIn","type":"uint256"},
+            {"name":"sqrtPriceX96After","type":"uint160"},
+            {"name":"initializedTicksCrossed","type":"uint32"},
+            {"name":"gasEstimate","type":"uint256"},
+        ]
+    },
+];

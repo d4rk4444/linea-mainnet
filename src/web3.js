@@ -50,6 +50,11 @@ export const encodeParams = (types, params) => {
     return w3.eth.abi.encodeParameters(types, params);
 }
 
+export const getPadLeft = (string) => {
+    const w3 = new Web3();
+    return w3.utils.padLeft(string, 64);
+}
+
 export const numberToHex = (number) => {
     const w3 = new Web3();
     return w3.utils.numberToHex(number);
