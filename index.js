@@ -10,7 +10,9 @@ import { wrapETH } from './function/DEX.js';
 import { swapETHToTokenSync, swapTokenToETHSync } from './function/syncSwap.js';
 import { swapETHToTokenLineaSwap, swapTokenToETHLineaSwap } from './function/lineaSwap.js';
 import { swapETHToTokenEcho, swapTokenToETHEcho } from './function/echoDEX.js';
+import { swapETHToTokenHorizon, swapTokenToETHHorizon } from './function/horizon.js';
 import { mintDomenName } from './function/lineans.js';
+import { mintOwltoLineaGalaxyNFT } from './function/galaxy.js';
 import { getBalanceLinea } from './function/other.js';
 import readline from 'readline-sync';
 import * as dotenv from 'dotenv';
@@ -28,7 +30,7 @@ dotenv.config();
         'SyncSwap',
         'LineaSwap',
         'EchoDEX',
-        'EMPTY',
+        'Horizon',
         'LineaName',
         'Other'
     ];
@@ -71,6 +73,19 @@ dotenv.config();
     const stageEchoDEX = [
         'Swap ETH -> ceBUSD',
         'Swap ceBUSD -> ETH',
+        'Swap ETH -> ceMATIC',
+        'Swap ceMATIC -> ETH',
+        'Random ETH -> ceBUSD/ceMATIC',
+        'Swap All Tokens -> ETH',
+    ];
+
+    const stageHorizon = [
+        'Swap ETH -> ceBUSD',
+        'Swap ceBUSD -> ETH',
+        'Swap ETH -> ceBNB',
+        'Swap ceBNB -> ETH',
+        'Random ETH -> ceBUSD/ceBNB',
+        'Swap All Tokens -> ETH',
     ];
 
     const stageLineans = [
@@ -79,6 +94,7 @@ dotenv.config();
 
     const stageOther = [
         'Check Balance Linea',
+        'Mint Owlto x Linea Bridger',
     ];
 
     const index = readline.keyInSelect(mainStage, 'Choose stage!');
@@ -113,8 +129,9 @@ dotenv.config();
         if (index5 == -1) { process.exit() };
         log('info', `Start ${stageEchoDEX[index5]}`, 'green');
     } else if (index == 5) {
-        index6 = readline.keyInSelect(otherStage, 'Choose stage!');
+        index6 = readline.keyInSelect(stageHorizon, 'Choose stage!');
         if (index6 == -1) { process.exit() };
+        log('info', `Start ${stageHorizon[index6]}`, 'green');
     } else if (index == 6) {
         index7 = readline.keyInSelect(stageLineans, 'Choose stage!');
         if (index7 == -1) { process.exit() };
@@ -199,6 +216,36 @@ dotenv.config();
                 await swapETHToTokenEcho(info.ceBUSD, wallet[i]);
             } else if (index5 == 1) {
                 await swapTokenToETHEcho(info.ceBUSD, wallet[i]);
+            } else if (index5 == 2) {
+                await swapETHToTokenEcho(info.ceMATIC, wallet[i]);
+            } else if (index5 == 3) {
+                await swapTokenToETHEcho(info.ceMATIC, wallet[i]);
+            } else if (index5 == 4) {
+                const arrTokens = [info.ceBUSD, info.ceMATIC];
+                await swapETHToTokenEcho(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
+            } else if (index5 == 5) {
+                const arrTokens = [info.ceBUSD, info.ceMATIC];
+                for (let i = 0; i < arrTokens.length; i++) {
+                    await swapTokenToETHEcho(arrTokens[i], wallet[i]);
+                }
+            }
+
+            if (index6 == 0) { //HORIZON STAGE
+                await swapETHToTokenHorizon(info.ceBUSD, wallet[i]);
+            } else if (index6 == 1) {
+                await swapTokenToETHHorizon(info.ceBUSD, wallet[i]);
+            } else if (index5 == 2) {
+                await swapETHToTokenHorizon(info.ceBNB, wallet[i]);
+            } else if (index5 == 3) {
+                await swapTokenToETHHorizon(info.ceBNB, wallet[i]);
+            } else if (index5 == 4) {
+                const arrTokens = [info.ceBUSD, info.ceBNB];
+                await swapETHToTokenHorizon(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
+            } else if (index5 == 5) {
+                const arrTokens = [info.ceBUSD, info.ceBNB];
+                for (let i = 0; i < arrTokens.length; i++) {
+                    await swapTokenToETHHorizon(arrTokens[i], wallet[i]);
+                }
             }
 
             if (index7 == 0) { //LINEANS STAGE
@@ -209,6 +256,8 @@ dotenv.config();
                 pauseWalletTime = 0;
                 await getBalanceLinea(wallet);
                 return;
+            } else if (index8 == 1) {
+                await mintOwltoLineaGalaxyNFT(wallet[i]);
             }
         } catch (error) {
             log('error', error, 'red');

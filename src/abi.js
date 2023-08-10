@@ -330,3 +330,112 @@ export const echoDEXAbi = [
         ]
     },
 ];
+
+export const horizenAbi = [
+    {
+        "type":"function",
+        "name":"multicall",
+        "inputs": [
+            {"name":"data","type":"bytes[]"}
+        ],
+    },
+    {
+        "type":"function",
+        "name":"swapExactInputSingle",
+        "inputs": [
+            {
+                "name":"params",
+                "type":"tuple",
+                "components": [
+                    {"name": "tokenIn","type": "address"},
+                    {"name": "tokenOut","type": "address"},
+                    {"name": "fee","type": "uint24"},
+                    {"name": "recipient","type": "address"},
+                    {"name": "deadline","type": "uint256"},
+                    {"name": "amountIn","type": "uint256"},
+                    {"name": "minAmountOut","type": "uint256"},
+                    {"name": "limitSqrtP","type": "uint160"},
+                ]
+            }
+        ]
+    },
+    {
+        "type":"function",
+        "name":"unwrapWeth",
+        "inputs": [
+            {"name":"minAmount","type":"uint256"},
+            {"name":"recipient","type":"address"}
+        ]
+    }
+];
+
+export const galaxyAbi = [
+    {
+        "type":"function",
+        "name":"galaxy_signer",
+        "inputs": [
+        ],
+        "outputs": [
+            {"name":"galaxy_signer","type":"address"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"manager",
+        "inputs": [
+        ],
+        "outputs": [
+            {"name":"r0","type":"address"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"treasury_manager",
+        "inputs": [
+        ],
+        "outputs": [
+            {"name":"treasury_manager","type":"address"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"campaign_setter",
+        "inputs": [
+        ],
+        "outputs": [
+            {"name":"campaign_setter","type":"address"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"_hash",
+        "inputs": [
+            {"name":"_cid","type":"uint256"},
+            {"name":"_starNFT","type":"address"},
+            {"name":"_dummyId","type":"uint256"},
+            {"name":"_powah","type":"uint256"},
+            {"name":"_account","type":"address"},
+        ],
+        "outputs": [
+            {"name":"hash","type":"bytes32"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"claim",
+        "inputs": [
+            {"name":"_cid","type":"uint256"},
+            {"name":"_starNFT","type":"address"},
+            {"name":"_dummyId","type":"uint256"},
+            {"name":"_powah","type":"uint256"},
+            {"name":"_signature","type":"bytes"},
+        ],
+    },
+    {
+        "type":"function",
+        "name":"mintToken",
+        "inputs": [
+            {"name":"nftType","type":"uint256"}
+        ],
+    }
+];

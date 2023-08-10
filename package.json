@@ -1,6 +1,6 @@
 {
   "name": "linea-mainet",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -14,6 +14,7 @@
     "chalk": "^5.3.0",
     "console-stamp": "^3.1.1",
     "dotenv": "^16.3.1",
+    "graphql-request": "^6.1.0",
     "mathjs": "^11.9.1",
     "readline-sync": "^1.4.10",
     "table": "^6.8.1",

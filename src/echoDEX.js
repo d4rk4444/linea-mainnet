@@ -26,13 +26,15 @@ export const getAmountIn = async(tokenIn, tokenOut, amountOut) => {
 export const dataSwapETHToToken = async(tokenB, amountETH, sender, slippage) => {
     const amountOut = parseInt(multiply(await getAmountsOut(info.WETH, tokenB, amountETH), slippage));
     const deadline = parseInt(Date.now() / 1000 + 3 * 60 * 60);
+    const poolFee = tokenB == info.ceBUSD ? 100
+        : info.ceMATIC ? 2500 : 0;
 
     const dataSwap = await getDataTx(info.rpcLinea, echoDEXAbi, info.EchoDEXRouter, 'exactInputSingle',
         [
             [
                 info.WETH,
                 tokenB,
-                100,
+                poolFee,
                 sender,
                 numberToHex(amountETH),
                 numberToHex(amountOut),
@@ -58,13 +60,15 @@ export const dataSwapETHToToken = async(tokenB, amountETH, sender, slippage) => 
 export const dataSwapTokenToETH = async(tokenA, amountToken, sender, slippage) => {
     const amountOut = parseInt(multiply(await getAmountsOut(tokenA, info.WETH, amountToken), slippage));
     const deadline = parseInt(Date.now() / 1000 + 3 * 60 * 60);
+    const poolFee = tokenA == info.ceBUSD ? 100
+        : info.ceMATIC ? 2500 : 0;
 
     const dataSwap = await getDataTx(info.rpcLinea, echoDEXAbi, info.EchoDEXRouter, 'exactInputSingle',
         [
             [
                 tokenA,
                 info.WETH,
-                100,
+                poolFee,
                 '0x0000000000000000000000000000000000000002',
                 numberToHex(amountToken),
                 numberToHex(amountOut),
