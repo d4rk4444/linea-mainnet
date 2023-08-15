@@ -34,8 +34,9 @@ export const waitGasPrice = async(rpc, needGasPrice, pauseTime) => {
 
 export const getTrueAmount = async(rpc, address, type) => {
     const amount = info.typeValue == 'procent'
-        ? parseInt(multiply(await getETHAmount(rpc, address), info['value' + type] / 100))
-        : toWei(info['value' + type].toString(), 'ether');
+        ? parseInt(multiply(await getETHAmount(rpc, address),
+            generateRandomAmount(process.env['Value_' + type + '_Min'], process.env['Value_' + type + '_Max'], 0) / 100))
+        : toWei(generateRandomAmount(process.env['Value_' + type + '_Min'], process.env['Value_' + type + '_Max'], 5).toString(), 'ether');
 
     return amount;
 }

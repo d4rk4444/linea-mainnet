@@ -7,7 +7,7 @@ import { info,
     log } from './src/other.js';
 import { bridgeETHToEthereum, bridgeETHToLinea } from './function/bridge.js';
 import { wrapETH } from './function/DEX.js';
-import { swapETHToTokenSync, swapTokenToETHSync } from './function/syncSwap.js';
+import { addLPETHWithTokenSync, deleteLPETHWithTokenSync, swapETHToTokenSync, swapTokenToETHSync } from './function/syncSwap.js';
 import { swapETHToTokenLineaSwap, swapTokenToETHLineaSwap } from './function/lineaSwap.js';
 import { swapETHToTokenEcho, swapTokenToETHEcho } from './function/echoDEX.js';
 import { swapETHToTokenHorizon, swapTokenToETHHorizon } from './function/horizon.js';
@@ -55,6 +55,8 @@ dotenv.config();
         'Swap ceAVAX -> ETH',
         'Random ETH -> ceBUSD/ceBNB/ceMATIC/ceAVAX',
         'Swap All Tokens -> ETH',
+        'Add LP ETH/BUSD',
+        'Delete LP ETH/BUSD',
     ];
 
     const stageLineaSwap = [
@@ -184,6 +186,10 @@ dotenv.config();
                 for (let i = 0; i < arrTokens.length; i++) {
                     await swapTokenToETHSync(arrTokens[i], wallet[i]);
                 }
+            } else if (index3 == 10) {
+                await addLPETHWithTokenSync(info.ceBUSD, wallet[i]);
+            } else if (index3 == 11) {
+                await deleteLPETHWithTokenSync(info.ceBUSD, wallet[i]);
             }
 
             if (index4 == 0) { //LINEASWAP STAGE

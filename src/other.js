@@ -33,8 +33,6 @@ export const info = {
     increaseGasPrice: Number(process.env.Increase_Gas_Price),
     needGasPrice: Number(process.env.Gas_Bridge_Max),
     typeValue: process.env.Type_Value,
-    valueBridge: generateRandomAmount(process.env.Value_Bridge_Min, process.env.Value_Bridge_Max, 5),
-    valueSwap: generateRandomAmount(process.env.Value_Swap_Min, process.env.Value_Swap_Max, 5),
     slippageSwap: (100 - Number(process.env.Slippage_Max)) / 100,
     bridgeMainet: '0xd19d4B5d358258f05D7B411E21A1460D11B0876F',
     bridgeLinea: '0x508Ca82Df566dCD1B0DE8296e70a96332cD644ec',
