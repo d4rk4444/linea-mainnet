@@ -27,6 +27,15 @@ export const getDataCall = async(rpc, abi, addressContract, nameFunc, property) 
     return data;
 }
 
+export const getEncodeABI = async(rpc, abi, addressContract, nameFunc, property, addressFrom) => {
+    const w3 = getProvider(rpc);
+    const contract = new w3.eth.Contract(abi, addressContract);
+
+    const data = contract.methods[nameFunc](...property);
+
+    return data.encodeABI();
+}
+
 export const getGasPrice = async(rpcProvider) => {
     const w3 = new Web3(new Web3.providers.HttpProvider(rpcProvider));
     const gasPrice = await w3.eth.getGasPrice();

@@ -16,6 +16,7 @@ import { mintOwltoLineaGalaxyNFT } from './function/galaxy.js';
 import { getBalanceLinea } from './function/other.js';
 import readline from 'readline-sync';
 import * as dotenv from 'dotenv';
+import { swapETHToTokenIzumi, swapTokenToETHIzumi } from './function/izumi.js';
 dotenv.config();
 
 (async() => {
@@ -31,6 +32,7 @@ dotenv.config();
         'LineaSwap',
         'EchoDEX',
         'Horizon',
+        'Izumi',
         'LineaName',
         'Other'
     ];
@@ -90,6 +92,15 @@ dotenv.config();
         'Swap All Tokens -> ETH',
     ];
 
+    const stageIzumi = [
+        'Swap ETH -> ceBUSD',
+        'Swap ceBUSD -> ETH',
+        'Swap ETH -> izumiUSD',
+        'Swap izumiUSD -> ETH',
+        'Random ETH -> ceBUSD/izumiUSD',
+        'Swap All Tokens -> ETH',
+    ];
+
     const stageLineans = [
         'Mint Domen Name 0.0027ETH',
     ];
@@ -108,6 +119,7 @@ dotenv.config();
     let index6;
     let index7;
     let index8;
+    let index9;
     if (index == -1) { process.exit() };
     log('info', `Start ${mainStage[index]}`, 'green');
     if (index == 0) {
@@ -135,13 +147,17 @@ dotenv.config();
         if (index6 == -1) { process.exit() };
         log('info', `Start ${stageHorizon[index6]}`, 'green');
     } else if (index == 6) {
-        index7 = readline.keyInSelect(stageLineans, 'Choose stage!');
+        index7 = readline.keyInSelect(stageIzumi, 'Choose stage!');
         if (index7 == -1) { process.exit() };
-        log('info', `Start ${stageLineans[index7]}`, 'green');
+        log('info', `Start ${stageIzumi[index7]}`, 'green');
     } else if (index == 7) {
-        index8 = readline.keyInSelect(stageOther, 'Choose stage!');
+        index8 = readline.keyInSelect(stageLineans, 'Choose stage!');
         if (index8 == -1) { process.exit() };
-        log('info', `Start ${stageOther[index8]}`, 'green');
+        log('info', `Start ${stageLineans[index8]}`, 'green');
+    } else if (index == 8) {
+        index9 = readline.keyInSelect(stageOther, 'Choose stage!');
+        if (index9 == -1) { process.exit() };
+        log('info', `Start ${stageOther[index9]}`, 'green');
     }
     
     
@@ -240,34 +256,51 @@ dotenv.config();
                 await swapETHToTokenHorizon(info.ceBUSD, wallet[i]);
             } else if (index6 == 1) {
                 await swapTokenToETHHorizon(info.ceBUSD, wallet[i]);
-            } else if (index5 == 2) {
+            } else if (index6 == 2) {
                 await swapETHToTokenHorizon(info.ceBNB, wallet[i]);
-            } else if (index5 == 3) {
+            } else if (index6 == 3) {
                 await swapTokenToETHHorizon(info.ceBNB, wallet[i]);
-            } else if (index5 == 4) {
+            } else if (index6 == 4) {
                 const arrTokens = [info.ceBUSD, info.ceBNB];
                 await swapETHToTokenHorizon(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
-            } else if (index5 == 5) {
+            } else if (index6 == 5) {
                 const arrTokens = [info.ceBUSD, info.ceBNB];
                 for (let i = 0; i < arrTokens.length; i++) {
                     await swapTokenToETHHorizon(arrTokens[i], wallet[i]);
                 }
             }
 
-            if (index7 == 0) { //LINEANS STAGE
+            if (index7 == 0) { //IZUMI STAGE
+                await swapETHToTokenIzumi(info.ceBUSD, wallet[i]);
+            } else if (index7 == 1) {
+                await swapTokenToETHIzumi(info.ceBUSD, wallet[i]);
+            } else if (index7 == 2) {
+                await swapETHToTokenIzumi(info.izumiUSD, wallet[i]);
+            } else if (index7 == 3) {
+                await swapTokenToETHIzumi(info.izumiUSD, wallet[i]);
+            } else if (index7 == 4) {
+                const arrTokens = [info.ceBUSD, info.izumiUSD];
+                await swapETHToTokenIzumi(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
+            } else if (index7 == 5) {
+                const arrTokens = [info.ceBUSD, info.izumiUSD];
+                for (let i = 0; i < arrTokens.length; i++) {
+                    await swapTokenToETHIzumi(arrTokens[i], wallet[i]);
+                }
+            }
+
+            if (index8 == 0) { //LINEANS STAGE
                 await mintDomenName(wallet[i]);
             }
     
-            if (index8 == 0) { //OTHER STAGE
+            if (index9 == 0) { //OTHER STAGE
                 pauseWalletTime = 0;
                 await getBalanceLinea(wallet);
                 return;
-            } else if (index8 == 1) {
+            } else if (index9 == 1) {
                 await mintOwltoLineaGalaxyNFT(wallet[i]);
             }
         } catch (error) {
             log('error', error, 'red');
-            return;
         }
 
         if (i + 1 != wallet.length) {

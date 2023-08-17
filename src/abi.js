@@ -439,3 +439,38 @@ export const galaxyAbi = [
         ],
     }
 ];
+
+export const iziAbi = [
+    {
+        "type":"function",
+        "name":"multicall",
+        "inputs": [
+            {"name":"data","type":"bytes[]"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"swapAmount",
+        "inputs": [
+            {
+                "name":"params",
+                "type":"tuple",
+                "components": [
+                    {"name":"","type":"bytes"},
+                    {"name":"","type":"address"},
+                    {"name":"","type":"uint128"},
+                    {"name":"","type":"uint256"},
+                    {"name":"","type":"uint256"}
+                ]
+            }
+        ]
+    },
+    {
+        "type":"function",
+        "name":"unwrapWETH9",
+        "inputs": [
+            {"name":"minAmount","type":"uint256"},
+            {"name":"recipient","type":"address"}
+        ]
+    },
+];

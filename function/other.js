@@ -26,7 +26,7 @@ export const waitGasPrice = async(rpc, needGasPrice, pauseTime) => {
             log('log', `Gas price = ${Number(gasPriceNow).toFixed(2)}`, 'green');
             return parseFloat(gasPriceNow).toFixed(9);
         } else {
-            log('log', `Wait for Gas Price, now = ${Number(gasPriceNow).toFixed(2)}`);
+            log('log', `Wait for Gas Price, now = ${Number(gasPriceNow).toFixed(2)}. Need = ${needGasPrice}`);
             await timeout(pauseTime);
         }
     }

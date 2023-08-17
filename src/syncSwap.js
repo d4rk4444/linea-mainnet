@@ -13,30 +13,30 @@ export const getPool = async(tokenA, tokenB) => {
     );
 }
 
-export const getAmountOut = async(addressLP, tokenIn, amountIn, sender) => {
-    return await getDataCall(
+export const getAmountOut = async(addressLP, tokenIn, amountIn, slippage, sender) => {
+    return parseInt(multiply(await getDataCall(
         info.rpcLinea,
         SSLPPoolAbi,
         addressLP,
         'getAmountOut',
         [tokenIn, numberToHex(amountIn), sender]
-    );
+    ), slippage));
 }
 
-export const getAmountIn = async(addressLP, tokenOut, amountOut, sender) => {
-    return await getDataCall(
+export const getAmountIn = async(addressLP, tokenOut, amountOut, slippage, sender) => {
+    return parseInt(multiply(await getDataCall(
         info.rpcLinea,
         SSLPPoolAbi,
         addressLP,
         'getAmountIn',
         [tokenOut, numberToHex(amountOut), sender]
-    );
+    ), slippage));
 }
 
 export const dataSwapETHToToken = async(addressToken, amountETH, sender, slippage) => {
     const dataSwap = encodeParams(['address', 'address', 'uint8'], [info.WETH, sender, 2]);
     const addressLP = await getPool(info.WETH, addressToken);
-    const amountOut = parseInt(multiply(await getAmountOut(addressLP, info.WETH, amountETH, sender), slippage));
+    const amountOut = await getAmountOut(addressLP, info.WETH, amountETH, slippage, sender);
     const deadline = parseInt(Date.now() / 1000 + 3 * 60 * 60);
 
     return await getDataTx(info.rpcLinea, SSRouterAbi, info.SyncRouter, 'swap',
@@ -62,7 +62,7 @@ export const dataSwapETHToToken = async(addressToken, amountETH, sender, slippag
 export const dataSwapTokenToETH = async(addressToken, amount, sender, slippage) => {
     const dataSwap = encodeParams(['address', 'address', 'uint8'], [addressToken, sender, 1]);
     const addressLP = await getPool(info.WETH, addressToken);
-    const amountOut = parseInt(multiply(await getAmountOut(addressLP, addressToken, amount, sender), slippage));
+    const amountOut = await getAmountOut(addressLP, addressToken, amount, slippage, sender);
     const deadline = Date.now() + 20 * 60 * 1000;
 
     return await getDataTx(info.rpcLinea, SSRouterAbi, info.SyncRouter, 'swap',
