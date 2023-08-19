@@ -11,12 +11,12 @@ import { addLPETHWithTokenSync, deleteLPETHWithTokenSync, swapETHToTokenSync, sw
 import { swapETHToTokenLineaSwap, swapTokenToETHLineaSwap } from './function/lineaSwap.js';
 import { swapETHToTokenEcho, swapTokenToETHEcho } from './function/echoDEX.js';
 import { swapETHToTokenHorizon, swapTokenToETHHorizon } from './function/horizon.js';
+import { swapETHToTokenIzumi, swapTokenToETHIzumi } from './function/izumi.js';
 import { mintDomenName } from './function/lineans.js';
 import { mintOwltoLineaGalaxyNFT } from './function/galaxy.js';
 import { getBalanceLinea } from './function/other.js';
 import readline from 'readline-sync';
 import * as dotenv from 'dotenv';
-import { swapETHToTokenIzumi, swapTokenToETHIzumi } from './function/izumi.js';
 dotenv.config();
 
 (async() => {

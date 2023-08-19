@@ -2,18 +2,24 @@ import { multiply } from "mathjs";
 import { generateRandomAmount, info, log, parseFile, privateToAddress, timeout } from "../src/other.js";
 import { fromWei, getAmountToken, getETHAmount, getGasPrice, toWei } from "../src/web3.js";
 import { table } from 'table';
+import chalk from 'chalk';
 
 export const getBalanceLinea = async(wallets) => {
-    let dataTabl = [
-        ['#', 'Wallet', 'ETH', 'BUSD']
-    ];
+    let dataTabl = [];
+    const title = ['#', 'Wallet', 'ETH', 'ceBUSD', 'ceBNB', 'ceMATIC', 'ceAVAX', 'izumiUSD'];
+    dataTabl.push(title);
 
     for (let i = 0; i < wallets.length; i++) {
         const address = privateToAddress(wallets[i]);
 
-        const amountETH = parseFloat(fromWei(await getETHAmount(info.rpcLinea, address), 'ether')).toFixed(5);
-        const amountBUSD = parseFloat(fromWei(await getAmountToken(info.rpcLinea, info.ceBUSD, address), 'ether')).toFixed(2);
-        const nextArr = [`${i + 1}`, address, amountETH, amountBUSD];
+        let amountETH = parseFloat(fromWei(await getETHAmount(info.rpcLinea, address), 'ether')).toFixed(5);
+        amountETH = amountETH > 0 ? chalk.green(amountETH) : chalk.red(amountETH);
+        const nextArr = [`${i + 1}`, address, amountETH];
+        for (let n = 3; n < title.length; n++) {
+            let amountToken = parseFloat(fromWei(await getAmountToken(info.rpcLinea, info[title[n]], address), 'ether')).toFixed(2);
+            amountToken = amountToken > 0 ? chalk.green(amountToken) : chalk.red(amountToken);
+            nextArr.push(amountToken);
+        }
         dataTabl.push(nextArr);
     }
     log('info', `\n${table(dataTabl)}`);

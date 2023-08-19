@@ -3,31 +3,31 @@ import { lineaSwapAbi } from './abi.js';
 import { multiply } from 'mathjs';
 import { encodeParams, getDataCall, getDataTx, numberToHex } from './web3.js';
 
-export const getAmountsOut = async(tokenIn, tokenOut, amountIn) => {
+export const getAmountsOut = async(tokenIn, tokenOut, amountIn, addressRouter) => {
     return (await getDataCall(
         info.rpcLinea,
         lineaSwapAbi,
-        info.LineaSwapRouter,
+        addressRouter,
         'getAmountsOut',
         [numberToHex(amountIn), [tokenIn, tokenOut]]
     ))[1];
 }
 
-export const getAmountIn = async(tokenIn, tokenOut, amountOut) => {
+export const getAmountIn = async(tokenIn, tokenOut, amountOut, addressRouter) => {
     return (await getDataCall(
         info.rpcLinea,
         lineaSwapAbi,
-        info.LineaSwapRouter,
+        addressRouter,
         'getAmountsIn',
         [numberToHex(amountOut), [tokenIn, tokenOut]]
     ))[0];
 }
 
-export const dataSwapETHToToken = async(tokenB, amountETH, sender, slippage) => {
-    const amountOut = parseInt(multiply(await getAmountsOut(info.WETH, tokenB, amountETH), slippage));
+export const dataSwapETHToToken = async(tokenB, amountETH, addressRouter, sender, slippage) => {
+    const amountOut = parseInt(multiply(await getAmountsOut(info.WETH, tokenB, amountETH, addressRouter), slippage));
     const deadline = parseInt(Date.now() / 1000 + 3 * 60 * 60);
 
-    return await getDataTx(info.rpcLinea, lineaSwapAbi, info.LineaSwapRouter, 'swapExactETHForTokens',
+    return await getDataTx(info.rpcLinea, lineaSwapAbi, addressRouter, 'swapExactETHForTokens',
         [
             numberToHex(amountOut),
             [info.WETH, tokenB],
@@ -39,11 +39,11 @@ export const dataSwapETHToToken = async(tokenB, amountETH, sender, slippage) => 
     );
 }
 
-export const dataSwapTokenToETH = async(tokenA, amountToken, sender, slippage) => {
-    const amountOut = parseInt(multiply(await getAmountsOut(tokenA, info.WETH, amountToken), slippage));
+export const dataSwapTokenToETH = async(tokenA, amountToken, addressRouter, sender, slippage) => {
+    const amountOut = parseInt(multiply(await getAmountsOut(tokenA, info.WETH, amountToken, addressRouter), slippage));
     const deadline = parseInt(Date.now() / 1000 + 3 * 60 * 60);
 
-    return await getDataTx(info.rpcLinea, lineaSwapAbi, info.LineaSwapRouter, 'swapExactTokensForETH',
+    return await getDataTx(info.rpcLinea, lineaSwapAbi, addressRouter, 'swapExactTokensForETH',
         [
             numberToHex(amountToken),
             numberToHex(amountOut),
