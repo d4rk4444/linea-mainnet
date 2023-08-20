@@ -31,7 +31,7 @@ export const info = {
     explorerLinea: 'https://lineascan.build/tx/',
     pauseTime: generateRandomAmount(process.env.TIMEOUT_ACTION_SEC_MIN * 1000, process.env.TIMEOUT_ACTION_SEC_MAX * 1000, 0),
     increaseGasPrice: Number(process.env.Increase_Gas_Price),
-    needGasPrice: Number(process.env.Gas_Bridge_Max),
+    needGasPrice: Number(process.env.Gas_Price_Max),
     typeValue: process.env.Type_Value,
     slippageSwap: (100 - Number(process.env.Slippage_Max)) / 100,
     bridgeMainet: '0xd19d4B5d358258f05D7B411E21A1460D11B0876F',
