@@ -1,5 +1,5 @@
-# linea-mainet
-A script for automating actions in Linea Mainet network.        
+# linea-mainnet
+A script for automating actions in Linea Mainnet network.        
 Interacts with projects such as EchoDEX, SyncSwap, Horizon, IzumiSwap, SyncSwap, LineaSwap, Lineans, Galaxy.        
 
 ## Description
@@ -13,8 +13,8 @@ The script has functions such as:
 Must have NodeJS version 18+, NPM 9+ installed
 
 ```
-git clone https://github.com/d4rk4444/linea-mainet.git
-cd linea-mainet
+git clone https://github.com/d4rk4444/linea-mainnet.git
+cd linea-mainnet
 npm i
 ```
 
