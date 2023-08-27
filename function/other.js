@@ -1,6 +1,6 @@
 import { multiply } from "mathjs";
 import { generateRandomAmount, info, log, parseFile, privateToAddress, timeout } from "../src/other.js";
-import { fromWei, getAmountToken, getETHAmount, getGasPrice, toWei } from "../src/web3.js";
+import { fromWei, getAmountToken, getETHAmount, getGasPrice, numberToHex, toWei } from "../src/web3.js";
 import { table } from 'table';
 import chalk from 'chalk';
 
@@ -40,8 +40,8 @@ export const waitGasPrice = async(rpc, needGasPrice, pauseTime) => {
 
 export const getTrueAmount = async(rpc, address, type) => {
     const amount = info.typeValue == 'procent'
-        ? parseInt(multiply(await getETHAmount(rpc, address),
-            generateRandomAmount(process.env['Value_' + type + '_Min'], process.env['Value_' + type + '_Max'], 0) / 100))
+        ? toWei(parseFloat(fromWei(numberToHex(multiply(await getETHAmount(rpc, address),
+            generateRandomAmount(process.env['Value_' + type + '_Min'], process.env['Value_' + type + '_Max'], 0) / 100)), 'ether')).toFixed(4), 'ether')
         : toWei(generateRandomAmount(process.env['Value_' + type + '_Min'], process.env['Value_' + type + '_Max'], 5).toString(), 'ether');
 
     return amount;
