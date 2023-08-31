@@ -74,7 +74,7 @@ export const dataSwapTokenToETH = async(addressToken, amount, sender, slippage) 
                     "0x"
                 ]],
                 addressToken,
-                amount
+                numberToHex(amount)
             ]],
             numberToHex(amountOut),
             deadline
