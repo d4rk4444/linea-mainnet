@@ -5,7 +5,7 @@ import { info,
     generateRandomAmount,
     privateToAddress, 
     log } from './src/other.js';
-import { bridgeETHToEthereum, bridgeETHToLinea } from './function/bridge.js';
+import { bridgeETHToEthereum, bridgeETHToLinea, claimETHMainnet } from './function/bridge.js';
 import { wrapETH } from './function/DEX.js';
 import { addLPETHWithTokenSync, deleteLPETHWithTokenSync, swapETHToTokenSync, swapTokenToETHSync } from './function/syncSwap.js';
 import { swapETHToTokenLineaSwap, swapTokenToETHLineaSwap } from './function/lineaSwap.js';
@@ -15,6 +15,7 @@ import { swapETHToTokenIzumi, swapTokenToETHIzumi } from './function/izumi.js';
 import { mintDomenName } from './function/lineans.js';
 import { mintOwltoLineaGalaxyNFT } from './function/galaxy.js';
 import { getBalanceLinea } from './function/other.js';
+import { clearBridgeInfo } from './src/bridge.js';
 import readline from 'readline-sync';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -39,7 +40,9 @@ dotenv.config();
 
     const stageBridge = [
         'Bridge ETH Ethereum -> Linea',
-        'Bridge ETH Linea -> Ethereum',
+        'Bridge ETH Linea -> Ethereum [Manual Claiming]',
+        'Claim ETH Ethereum',
+        'Clear History Bridge File',
     ];
 
     const stageDEX = [
@@ -172,6 +175,10 @@ dotenv.config();
                 await bridgeETHToLinea(wallet[i]);
             } else if (index1 == 1) {
                 await bridgeETHToEthereum(wallet[i]);
+            } else if (index1 == 2) {
+                await claimETHMainnet('historyBridge.json', wallet[i]);
+            } else if (index1 == 3) {
+                clearBridgeInfo('historyBridge.json');
             }
 
             if (index2 == 0) { //DEX STAGE

@@ -27,7 +27,7 @@ export const getDataCall = async(rpc, abi, addressContract, nameFunc, property) 
     return data;
 }
 
-export const getEncodeABI = async(rpc, abi, addressContract, nameFunc, property, addressFrom) => {
+export const getEncodeABI = async(rpc, abi, addressContract, nameFunc, property) => {
     const w3 = getProvider(rpc);
     const contract = new w3.eth.Contract(abi, addressContract);
 
@@ -57,6 +57,11 @@ export const fromWei = (amount, type) => {
 export const encodeParams = (types, params) => {
     const w3 = new Web3();
     return w3.eth.abi.encodeParameters(types, params);
+}
+
+export const decodeParams = (types, data) => {
+    const w3 = new Web3();
+    return w3.eth.abi.decodeParameters(types, data);
 }
 
 export const getPadLeft = (string) => {

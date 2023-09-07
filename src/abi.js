@@ -90,6 +90,19 @@ export const bridgeAbi = [
             {"name":"_fee","type":"uint256"},
             {"name":"_calldata","type":"bytes"}
         ]
+    },
+    {
+        "type":"function",
+        "name":"claimMessage",
+        "inputs": [
+            {"name":"_from","type":"address"},
+            {"name":"_to","type":"address"},
+            {"name":"_fee","type":"uint256"},
+            {"name":"_value","type":"uint256"},
+            {"name":"_feeRecipient","type":"address"},
+            {"name":"_calldata","type":"bytes"},
+            {"name":"_nonce","type":"uint256"}
+        ]
     }
 ];
 

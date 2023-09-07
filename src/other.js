@@ -78,6 +78,11 @@ export const parseFile = (file) => {
     return array;
 }
 
+export const parseJsonFile = (file) => {
+    let data = fs.readFileSync(file, 'utf8');
+    return JSON.parse(data);
+}
+
 export const privateToAddress = (privateKey) => {
     const w3 = new Web3();
     return w3.eth.accounts.privateKeyToAccount(privateKey).address;
