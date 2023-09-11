@@ -33,8 +33,10 @@ All required settings are in the .env file
     - Value for bridge (in % or ETH Depending on the Type Value)
 6. DEX settings
     - Value for swap (in % or ETH Depending on the Type Value)
-    - Slippage for swap (in %)
-6. Lineans settings for domen length
+    - Slippage for swap (in %)  
+    - List of DEXes that are used in random     
+    - List of Tokens that are used in random    
+6. Lineans settings for domen length    
       
 Insert private Metamask addresses in the private.txt file in this format:    
 ```

@@ -16,6 +16,7 @@ import { mintDomenName } from './function/lineans.js';
 import { mintOwltoLineaGalaxyNFT } from './function/galaxy.js';
 import { getBalanceLinea } from './function/other.js';
 import { clearBridgeInfo } from './src/bridge.js';
+import { randomSwapETHToTokenAll, randomSwapTokenToETHAll } from './function/random.js';
 import readline from 'readline-sync';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -35,6 +36,7 @@ dotenv.config();
         'Horizon',
         'Izumi',
         'LineaName',
+        'Random',
         'Other'
     ];
 
@@ -108,6 +110,12 @@ dotenv.config();
         'Mint Domen Name 0.0027ETH',
     ];
 
+    const stageRandom = [
+        'Random Swap ETH -> Token',
+        'Random Swap Token -> ETH',
+        'Random Swap ALL Tokens -> ETH',
+    ];
+
     const stageOther = [
         'Check Balance Linea',
         'Mint Owlto x Linea Bridger',
@@ -123,6 +131,7 @@ dotenv.config();
     let index7;
     let index8;
     let index9;
+    let index10;
     if (index == -1) { process.exit() };
     log('info', `Start ${mainStage[index]}`, 'green');
     if (index == 0) {
@@ -158,9 +167,13 @@ dotenv.config();
         if (index8 == -1) { process.exit() };
         log('info', `Start ${stageLineans[index8]}`, 'green');
     } else if (index == 8) {
-        index9 = readline.keyInSelect(stageOther, 'Choose stage!');
+        index9 = readline.keyInSelect(stageRandom, 'Choose stage!');
         if (index9 == -1) { process.exit() };
-        log('info', `Start ${stageOther[index9]}`, 'green');
+        log('info', `Start ${stageRandom[index9]}`, 'green');
+    } else if (index == 9) {
+        index10 = readline.keyInSelect(stageOther, 'Choose stage!');
+        if (index10 == -1) { process.exit() };
+        log('info', `Start ${stageOther[index10]}`, 'green');
     }
     
     
@@ -298,12 +311,20 @@ dotenv.config();
             if (index8 == 0) { //LINEANS STAGE
                 await mintDomenName(wallet[i]);
             }
+
+            if (index9 == 0) { //RANDOM STAGE
+                await randomSwapETHToTokenAll(wallet[i]);
+            } else if (index9 == 1) {
+                await randomSwapTokenToETHAll(false, wallet[i]);
+            } else if (index9 == 2) {
+                await randomSwapTokenToETHAll(true, wallet[i]);
+            }
     
-            if (index9 == 0) { //OTHER STAGE
+            if (index10 == 0) { //OTHER STAGE
                 pauseWalletTime = 0;
                 await getBalanceLinea(wallet);
                 return;
-            } else if (index9 == 1) {
+            } else if (index10 == 1) {
                 await mintOwltoLineaGalaxyNFT(wallet[i]);
             }
         } catch (error) {

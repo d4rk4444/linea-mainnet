@@ -34,6 +34,8 @@ export const info = {
     needGasPrice: Number(process.env.Gas_Price_Max),
     typeValue: process.env.Type_Value,
     slippageSwap: (100 - Number(process.env.Slippage_Max)) / 100,
+    dexList: (process.env.Dex_Random_List).split(", "),
+    tokenList: (process.env.Token_Random_List).split(", "),
     bridgeMainet: '0xd19d4B5d358258f05D7B411E21A1460D11B0876F',
     bridgeLinea: '0x508Ca82Df566dCD1B0DE8296e70a96332cD644ec',
     WETH: '0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f',

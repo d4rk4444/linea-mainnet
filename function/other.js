@@ -61,3 +61,16 @@ export const generateRandomDomenName = async(lenghtMax) => {
 
     return domen;
 }
+
+export const getTrueArrBalanceTokens = async(arrToken, address) => {
+    let result = [];
+    for (const token of arrToken) {
+        await getAmountToken(info.rpcLinea, info[token], address).then(res => {
+            if (res > 1 * 10**4) {
+                result.push(token);
+            }
+        });
+    }
+
+    return result;
+}
