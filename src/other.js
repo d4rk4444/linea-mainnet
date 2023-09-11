@@ -52,9 +52,19 @@ export const info = {
     ceMATIC: '0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8',
     ceAVAX: '0x5471ea8f739dd37E9B81Be9c5c77754D8AA953E4',
     izumiUSD: '0x0A3BB08b3a15A19b4De82F8AcFc862606FB69A2D',
+    USDC: '0x176211869cA2b568f2A7D4EE941E073a821EE1ff',
+    USDT: '0xa219439258ca9da29e9cc4ce5596924745e12b93',
     Lineans: '0xda4c3eb39707ad82ea7a31afd42bdf850fed8f41',
     domenLenghtMax: process.env.Length_Max,
 }
+
+export const pathData = {
+    Sync: [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX, info.USDC, info.USDT],
+    LineaSwap: [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX],
+    Echo: [info.ceBUSD, info.ceMATIC],
+    Horizon: [info.ceBUSD, info.ceBNB, info.USDC],
+    Izumi: [info.ceBUSD, info.izumiUSD, info.USDC]
+};
 
 export const timeout = ms => new Promise(res => setTimeout(res, ms));
 

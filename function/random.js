@@ -3,7 +3,8 @@ import { info,
     shuffle,
     generateRandomAmount,
     privateToAddress, 
-    log } from '../src/other.js';
+    log, 
+    pathData } from '../src/other.js';
 import { swapETHToTokenSync, swapTokenToETHSync } from './syncSwap.js';
 import { swapETHToTokenLineaSwap, swapTokenToETHLineaSwap } from './lineaSwap.js';
 import { swapETHToTokenEcho, swapTokenToETHEcho } from './echoDEX.js';
@@ -12,14 +13,6 @@ import { swapETHToTokenIzumi, swapTokenToETHIzumi } from './izumi.js';
 import { getTrueArrBalanceTokens } from './other.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
-
-const pathData = {
-    Sync: [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX],
-    LineaSwap: [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX],
-    Echo: [info.ceBUSD, info.ceMATIC],
-    Horizon: [info.ceBUSD, info.ceBNB],
-    Izumi: [info.ceBUSD, info.izumiUSD]
-};
 
 export const randomSwapETHToTokenAll = async(privateKey) => {
     const ticker = info.tokenList[generateRandomAmount(0, info.tokenList.length - 1, 0)]

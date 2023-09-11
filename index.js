@@ -4,7 +4,8 @@ import { info,
     parseFile,
     generateRandomAmount,
     privateToAddress, 
-    log } from './src/other.js';
+    log, 
+    pathData } from './src/other.js';
 import { bridgeETHToEthereum, bridgeETHToLinea, claimETHMainnet } from './function/bridge.js';
 import { wrapETH } from './function/DEX.js';
 import { addLPETHWithTokenSync, deleteLPETHWithTokenSync, swapETHToTokenSync, swapTokenToETHSync } from './function/syncSwap.js';
@@ -215,10 +216,10 @@ dotenv.config();
             } else if (index3 == 7) {
                 await swapTokenToETHSync(info.ceAVAX, wallet[i]);
             } else if (index3 == 8) {
-                const arrTokens = [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX];
+                const arrTokens = pathData.Sync;
                 await swapETHToTokenSync(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
             } else if (index3 == 9) {
-                const arrTokens = [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX];
+                const arrTokens = pathData.Sync;
                 for (let n = 0; n < arrTokens.length; n++) {
                     await swapTokenToETHSync(arrTokens[n], wallet[i]);
                 }
@@ -245,10 +246,10 @@ dotenv.config();
             } else if (index4 == 7) {
                 await swapTokenToETHLineaSwap(info.ceAVAX, wallet[i]);
             } else if (index4 == 8) {
-                const arrTokens = [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX];
+                const arrTokens = pathData.LineaSwap;
                 await swapETHToTokenLineaSwap(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
             } else if (index4 == 9) {
-                const arrTokens = [info.ceBUSD, info.ceBNB, info.ceMATIC, info.ceAVAX];
+                const arrTokens = pathData.LineaSwap;
                 for (let n = 0; n < arrTokens.length; n++) {
                     await swapTokenToETHLineaSwap(arrTokens[n], wallet[i]);
                 }
@@ -263,10 +264,10 @@ dotenv.config();
             } else if (index5 == 3) {
                 await swapTokenToETHEcho(info.ceMATIC, wallet[i]);
             } else if (index5 == 4) {
-                const arrTokens = [info.ceBUSD, info.ceMATIC];
+                const arrTokens = pathData.Echo;
                 await swapETHToTokenEcho(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
             } else if (index5 == 5) {
-                const arrTokens = [info.ceBUSD, info.ceMATIC];
+                const arrTokens = pathData.Echo;
                 for (let i = 0; i < arrTokens.length; i++) {
                     await swapTokenToETHEcho(arrTokens[i], wallet[i]);
                 }
@@ -281,10 +282,10 @@ dotenv.config();
             } else if (index6 == 3) {
                 await swapTokenToETHHorizon(info.ceBNB, wallet[i]);
             } else if (index6 == 4) {
-                const arrTokens = [info.ceBUSD, info.ceBNB];
+                const arrTokens = pathData.Horizon;
                 await swapETHToTokenHorizon(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
             } else if (index6 == 5) {
-                const arrTokens = [info.ceBUSD, info.ceBNB];
+                const arrTokens = pathData.Horizon;
                 for (let n = 0; n < arrTokens.length; n++) {
                     await swapTokenToETHHorizon(arrTokens[n], wallet[i]);
                 }
@@ -299,10 +300,10 @@ dotenv.config();
             } else if (index7 == 3) {
                 await swapTokenToETHIzumi(info.izumiUSD, wallet[i]);
             } else if (index7 == 4) {
-                const arrTokens = [info.ceBUSD, info.izumiUSD];
+                const arrTokens = pathData.Izumi;
                 await swapETHToTokenIzumi(arrTokens[generateRandomAmount(0, arrTokens.length - 1), 0], wallet[i]);
             } else if (index7 == 5) {
-                const arrTokens = [info.ceBUSD, info.izumiUSD];
+                const arrTokens = pathData.Izumi;
                 for (let n = 0; n < arrTokens.length; n++) {
                     await swapTokenToETHIzumi(arrTokens[n], wallet[i]);
                 }
