@@ -6,12 +6,9 @@ import { getDataTx, numberToHex } from './web3.js';
 import { getAmountOut, getPool } from './syncSwap.js';
 
 export const dataSwapETHToToken = async(amountETH, tokenAddress, slippage, sender) => {
-    const dataEncode = tokenAddress == info.izumiUSD ? [
+    const dataEncode = [
         ['address', 'uint24', 'address'],
-        [info.WETH, '3000', info.izumiUSD]
-    ] : [
-        ['address', 'uint24', 'address', 'uint24', 'address'],
-        [info.WETH, '3000', info.izumiUSD, '500', tokenAddress]
+        [info.WETH, '3000', tokenAddress]
     ];
     const encoded = ethers.utils.solidityPack(...dataEncode);
     const amountOutMin = tokenAddress == info.izumiUSD ? '1'
@@ -40,12 +37,9 @@ export const dataSwapETHToToken = async(amountETH, tokenAddress, slippage, sende
 }
 
 export const dataSwapTokenToETH = async(amountToken, tokenAddress, slippage, sender) => {
-    const dataEncode = tokenAddress == info.izumiUSD ? [
+    const dataEncode = [
         ['address', 'uint24', 'address'],
         [tokenAddress, '500', info.WETH]
-    ] : [
-        ['address', 'uint24', 'address', 'uint24', 'address'],
-        [tokenAddress, '500', info.izumiUSD, '500', info.WETH]
     ];
     const encoded = ethers.utils.solidityPack(...dataEncode);
     const amountOutMin = tokenAddress == info.izumiUSD ? '1'
