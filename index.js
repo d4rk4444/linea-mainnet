@@ -18,6 +18,7 @@ import { mintOwltoLineaGalaxyNFT } from './function/galaxy.js';
 import { getBalanceLinea } from './function/other.js';
 import { clearBridgeInfo } from './src/bridge.js';
 import { randomSwapETHToTokenAll, randomSwapTokenToETHAll } from './function/random.js';
+import { getStatsTable } from './function/stats.js';
 import readline from 'readline-sync';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -118,6 +119,7 @@ dotenv.config();
     ];
 
     const stageOther = [
+        'View Wallets Stats',
         'Check Balance Linea',
         'Mint Owlto x Linea Bridger',
     ];
@@ -322,10 +324,13 @@ dotenv.config();
             }
     
             if (index10 == 0) { //OTHER STAGE
+                await getStatsTable(wallet);
+                return;
+            } else if (index10 == 1) {
                 pauseWalletTime = 0;
                 await getBalanceLinea(wallet);
                 return;
-            } else if (index10 == 1) {
+            } else if (index10 == 2) {
                 await mintOwltoLineaGalaxyNFT(wallet[i]);
             }
         } catch (error) {

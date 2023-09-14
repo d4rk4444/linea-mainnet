@@ -21,22 +21,23 @@ npm i
 ## Configuration
 All required settings are in the .env file    
 
-1. API Infura key
-2. Pause time between actions          
-3. Pause time between wallets   
-4. Main settings
+1. API Infura key   
+2. API [Lineascan](https://lineascan.build/)    
+3. Pause time between actions          
+4. Pause time between wallets   
+5. Main settings
     - Wallets are randomized
     - Gas price multiplication
     - Type Value for all functions (amount/procent)
     - Limit for Gas price on both networks
-5. Bridge settings
+6. Bridge settings
     - Value for bridge (in % or ETH Depending on the Type Value)
-6. DEX settings
+7. DEX settings
     - Value for swap (in % or ETH Depending on the Type Value)
     - Slippage for swap (in %)  
     - List of DEXes that are used in random     
     - List of Tokens that are used in random    
-6. Lineans settings for domen length    
+8. Lineans settings for domen length    
       
 Insert private Metamask addresses in the private.txt file in this format:    
 ```
