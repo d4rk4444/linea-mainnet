@@ -10,7 +10,7 @@ const dataProject = {
     Sync: '0x80e38291e06339d10AAB483C65695D004dBD5C69',
     LineaSwap: '0x3228d205A96409a07A44D39916b6EA7B765D61F4',
     Echo: '0xF82537FB6c56A3b50092d3951f84F5F6c835b4F5',
-    Horizen: '0x272E156Df8DA513C69cB41cC7A99185D53F926Bb',
+    Horizon: '0x272E156Df8DA513C69cB41cC7A99185D53F926Bb',
     Izumi: '0x032b241De86a8660f1Ae0691a4760B426EA246d7',
     Lineans: '0xda4c3eb39707ad82ea7a31afd42bdf850fed8f41',
 };
@@ -98,7 +98,7 @@ export const getStatsTable = async(doTx, arrAddress) => {
         }
 
         if (i == arrAddress.length - 1 && doTx) {
-            const arrActivity = dataAddress.slice(6, contracts.length - 1);
+            const arrActivity = dataAddress.splice(6, contracts.length - 1);
             const zeroActivityProject = [];
             for (let n = 0; n < arrActivity.length; n++) {
                 if (arrActivity[n] == 0) {
