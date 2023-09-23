@@ -2,11 +2,12 @@ import axios from "axios";
 import { table } from "table";
 import { log, privateToAddress } from "../src/other.js";
 import { getProvider } from "../src/web3.js";
+import { randomSwapETHToTokenAll } from "./random.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const dataProject = {
-    SyncSwap: '0x80e38291e06339d10AAB483C65695D004dBD5C69',
+    Sync: '0x80e38291e06339d10AAB483C65695D004dBD5C69',
     LineaSwap: '0x3228d205A96409a07A44D39916b6EA7B765D61F4',
     Echo: '0xF82537FB6c56A3b50092d3951f84F5F6c835b4F5',
     Horizen: '0x272E156Df8DA513C69cB41cC7A99185D53F926Bb',
@@ -62,7 +63,7 @@ const getDayWeekMonthStat = async(data) => {
     return { firstTx, lastTx, dayWeekMonth };
 }
 
-export const getStatsTable = async(arrAddress) => {
+export const getStatsTable = async(doTx, arrAddress) => {
     const w3 = getProvider();
     const API = process.env.LINEASCAN_API_KEY;
 
@@ -95,7 +96,26 @@ export const getStatsTable = async(arrAddress) => {
                 dataAddress[6 + index] += 1;
             }
         }
+
+        if (i == arrAddress.length - 1 && doTx) {
+            const arrActivity = dataAddress.slice(6, contracts.length - 1);
+            const zeroActivityProject = [];
+            for (let n = 0; n < arrActivity.length; n++) {
+                if (arrActivity[n] == 0) {
+                    zeroActivityProject.push(Object.keys(dataProject)[n]);
+                }
+            }
+
+            if (zeroActivityProject.length == 0) {
+                log ('log', 'You don\'t have projects without activity', 'yellow');
+            } else {
+                log('info', `Projects with 0 activity: ${zeroActivityProject}`);
+                await randomSwapETHToTokenAll(zeroActivityProject, arrAddress[i]);
+            }
+        }
     }
     
-    log('info', `\n${table(dataTabl)}`);
+    if (!doTx) {
+        log('info', `\n${table(dataTabl)}`);
+    }
 }

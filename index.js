@@ -122,6 +122,7 @@ dotenv.config();
         'View Wallets Stats',
         'Check Balance Linea',
         'Mint Owlto x Linea Bridger',
+        'Activities in projects where they have not been done',
     ];
 
     const index = readline.keyInSelect(mainStage, 'Choose stage!');
@@ -316,7 +317,7 @@ dotenv.config();
             }
 
             if (index9 == 0) { //RANDOM STAGE
-                await randomSwapETHToTokenAll(wallet[i]);
+                await randomSwapETHToTokenAll(info.dexList, wallet[i]);
             } else if (index9 == 1) {
                 await randomSwapTokenToETHAll(false, wallet[i]);
             } else if (index9 == 2) {
@@ -324,7 +325,7 @@ dotenv.config();
             }
     
             if (index10 == 0) { //OTHER STAGE
-                await getStatsTable(wallet);
+                await getStatsTable(false, wallet);
                 return;
             } else if (index10 == 1) {
                 pauseWalletTime = 0;
@@ -332,6 +333,8 @@ dotenv.config();
                 return;
             } else if (index10 == 2) {
                 await mintOwltoLineaGalaxyNFT(wallet[i]);
+            } else if (index10 == 3) {
+                await getStatsTable(true, wallet);
             }
         } catch (error) {
             log('error', error, 'red');

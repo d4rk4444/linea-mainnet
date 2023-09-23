@@ -14,11 +14,11 @@ import { getTrueArrBalanceTokens } from './other.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-export const randomSwapETHToTokenAll = async(privateKey) => {
+export const randomSwapETHToTokenAll = async(arrDexList, privateKey) => {
     const ticker = info.tokenList[generateRandomAmount(0, info.tokenList.length - 1, 0)]
     const token = info[ticker];
     let DEXs = [];
-    for (const DEX of info.dexList) {
+    for (const DEX of arrDexList) {
         if (pathData[DEX].includes(token)) {
             DEXs.push(DEX);
         }
