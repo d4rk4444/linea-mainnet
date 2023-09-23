@@ -334,7 +334,7 @@ dotenv.config();
             } else if (index10 == 2) {
                 await mintOwltoLineaGalaxyNFT(wallet[i]);
             } else if (index10 == 3) {
-                await getStatsTable(true, wallet);
+                await getStatsTable(true, wallet[i]);
             }
         } catch (error) {
             log('error', error, 'red');
