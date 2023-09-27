@@ -6,7 +6,7 @@ import chalk from 'chalk';
 
 export const getBalanceLinea = async(wallets) => {
     let dataTabl = [];
-    const title = ['#', 'Wallet', 'ETH', 'ceBUSD', 'ceBNB', 'ceMATIC', 'ceAVAX', 'izumiUSD'];
+    const title = ['#', 'Wallet', 'ETH', 'USDC', 'USDT', 'ceBUSD', 'ceBNB', 'ceMATIC', 'ceAVAX', 'izumiUSD'];
     dataTabl.push(title);
 
     for (let i = 0; i < wallets.length; i++) {
@@ -16,7 +16,8 @@ export const getBalanceLinea = async(wallets) => {
         amountETH = amountETH > 0 ? chalk.green(amountETH) : chalk.red(amountETH);
         const nextArr = [`${i + 1}`, address, amountETH];
         for (let n = 3; n < title.length; n++) {
-            let amountToken = parseFloat(fromWei(await getAmountToken(info.rpcLinea, info[title[n]], address), 'ether')).toFixed(2);
+            let type = title[n] == 'USDC' || title[n] == 'USDT' ? 'lovelace' : 'ether';
+            let amountToken = parseFloat(fromWei(await getAmountToken(info.rpcLinea, info[title[n]], address), type)).toFixed(2);
             amountToken = amountToken > 0 ? chalk.green(amountToken) : chalk.red(amountToken);
             nextArr.push(amountToken);
         }
