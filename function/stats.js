@@ -1,7 +1,8 @@
 import axios from "axios";
 import { table } from "table";
+import { multiply } from "mathjs";
 import { log, privateToAddress } from "../src/other.js";
-import { getProvider } from "../src/web3.js";
+import { fromWei, getProvider, numberToHex } from "../src/web3.js";
 import { randomSwapETHToTokenAll } from "./random.js";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -63,12 +64,25 @@ const getDayWeekMonthStat = async(data) => {
     return { firstTx, lastTx, dayWeekMonth };
 }
 
+const getValueTxs = async(data) => {
+    let summ = 0;
+
+    for (let i = 0; i < data.length; i++) {
+        const txInfo = data[i];
+        if (txInfo.txreceipt_status == '1') {
+            summ += multiply(txInfo.gasUsed, txInfo.gasPrice);
+        }
+    }
+
+    return parseFloat(fromWei(numberToHex(summ), 'ether')).toFixed(5);
+}
+
 export const getStatsTable = async(doTx, arrAddress) => {
     const w3 = getProvider();
     const API = process.env.LINEASCAN_API_KEY;
 
     let dataTabl = [];
-    const title = ['#', 'address', 'n tx', 'first tx', 'last tx', 'd/w/m'];
+    const title = ['#', 'address', 'n tx', 'first tx', 'last tx', 'd/w/m', 'fee ETH'];
     for (const project in dataProject) {
         title.push(project);
     }
@@ -86,14 +100,15 @@ export const getStatsTable = async(doTx, arrAddress) => {
         }
         if (data.length != 0) {
             const dataDate = await getDayWeekMonthStat(data);
-            dataAddress.splice(3, 3, dataDate.firstTx, dataDate.lastTx, dataDate.dayWeekMonth);
+            const feeTx = await getValueTxs(data);
+            dataAddress.splice(3, 4, dataDate.firstTx, dataDate.lastTx, dataDate.dayWeekMonth, feeTx);
         }
         dataTabl.push(dataAddress);
 
         for (const txInfo of data) {
             if (txInfo.txreceipt_status == '1' && contracts.includes(w3.utils.toChecksumAddress(txInfo.to))) {
                 const index = contracts.findIndex(e => e == w3.utils.toChecksumAddress(txInfo.to));
-                dataAddress[6 + index] += 1;
+                dataAddress[7 + index] += 1;
             }
         }
 
