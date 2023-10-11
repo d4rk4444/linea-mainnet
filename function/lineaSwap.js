@@ -26,8 +26,7 @@ export const swapTokenToETHLineaSwap = async(addressToken, privateKey) => {
     const gasPrice = await getTrueGasPrice(info.rpcLinea);
 
     if (amountToken == 0) {
-        log('info', `Balance ${ticker} = 0. Skip this wallet`, 'red');
-        return;
+        throw new Error(`Balance ${ticker} = 0. Skip this wallet`);
     }
 
     await checkAllowance(info.rpcLinea, addressToken, address, info.LineaSwapRouter).then(async(allowance) => {
