@@ -336,12 +336,12 @@ dotenv.config();
             } else if (index10 == 3) {
                 await getStatsTable(true, [wallet[i]]);
             }
+
+            if (i + 1 != wallet.length) {
+                await timeout(pauseWalletTime);
+            }
         } catch (error) {
             log('error', error, 'red');
-        }
-
-        if (i + 1 != wallet.length) {
-            await timeout(pauseWalletTime);
         }
     }
 
