@@ -6,7 +6,7 @@ export const dataBridgeMetamask = async(rpc, router, amount, addressTo) => {
     const w3 = getProvider();
     const fee = numberToHex(parseInt(multiply(amount, 0.00875)));
     const amountWithFee = numberToHex(subtract(amount, fee));
-    const bonderFee = numberToHex(toWei('0.0008', 'ether'));
+    const bonderFee = numberToHex(toWei('0.001', 'ether'));
     const amountOutMin = numberToHex(parseInt(amount * 0.8));
 
     const dataBytes = '0x0000000000000000000000006ef81a18e1e432c289dc0d1a670b78e8bbf9aa35'
