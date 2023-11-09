@@ -10,7 +10,7 @@ export const mintDomenName = async(privateKey) => {
     const domenName = await generateRandomDomenName(info.domenLenghtMax);
     
     await dataMintLineans(domenName, address).then(async(res) => {
-        await sendEVMTX(info.rpcLinea, 0, res.estimateGas, res.addressContract, res.amountTx, res.encodeABI, privateKey, gasPrice);
+        await sendEVMTX(info.rpcLinea, res.estimateGas, res.addressContract, res.amountTx, res.encodeABI, privateKey, gasPrice);
     });
 
     log('log', `Successful Mint ${domenName} Domen`, 'green');

@@ -19,6 +19,7 @@ import { getBalanceLinea } from './function/other.js';
 import { clearBridgeInfo } from './src/bridge.js';
 import { randomSwapETHToTokenAll, randomSwapTokenToETHAll } from './function/random.js';
 import { getStatsTable } from './function/stats.js';
+import { bridgeMetamask } from './function/metamask.js';
 import readline from 'readline-sync';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -39,7 +40,8 @@ dotenv.config();
         'Izumi',
         'LineaName',
         'Random',
-        'Other'
+        'Other',
+        'VOYAGE',
     ];
 
     const stageBridge = [
@@ -124,6 +126,10 @@ dotenv.config();
         'Mint Owlto x Linea Bridger',
         'Activities in projects where they have not been done',
     ];
+    
+    const stageVoyager = [
+        'MM Bridge OP -> Linea',
+    ];
 
     const index = readline.keyInSelect(mainStage, 'Choose stage!');
     let index1;
@@ -136,6 +142,7 @@ dotenv.config();
     let index8;
     let index9;
     let index10;
+    let index11;
     if (index == -1) { process.exit() };
     log('info', `Start ${mainStage[index]}`, 'green');
     if (index == 0) {
@@ -178,6 +185,10 @@ dotenv.config();
         index10 = readline.keyInSelect(stageOther, 'Choose stage!');
         if (index10 == -1) { process.exit() };
         log('info', `Start ${stageOther[index10]}`, 'green');
+    } else if (index == 10) {
+        index11 = readline.keyInSelect(stageVoyager, 'Choose stage!');
+        if (index11 == -1) { process.exit() };
+        log('info', `Start ${stageVoyager[index11]}`, 'green');
     }
     
     
@@ -335,6 +346,10 @@ dotenv.config();
                 await mintOwltoLineaGalaxyNFT(wallet[i]);
             } else if (index10 == 3) {
                 await getStatsTable(true, [wallet[i]]);
+            }
+
+            if (index11 == 0) { //VOYAGER STAGE
+                await bridgeMetamask('Optimism', wallet[i]);
             }
 
             if (i + 1 != wallet.length) {

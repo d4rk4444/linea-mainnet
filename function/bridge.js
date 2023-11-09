@@ -16,7 +16,7 @@ export const bridgeETHToLinea = async(privateKey) => {
     const priorityFee = generateRandomAmount(0.05, 0.1, 2).toString();
     
     await dataBridgeMainnet(amount, fee, address).then(async(res) => {
-        await sendEVMTX(info.rpcEthereum, 2, res.estimateGas, res.addressContract, amountTx, res.encodeABI, privateKey, gasPriceEthereum, priorityFee);
+        await sendEVMTX(info.rpcEthereum, res.estimateGas, res.addressContract, amountTx, res.encodeABI, privateKey, gasPriceEthereum, priorityFee);
     });
 
     log('log', `Successful Bridge ${fromWei(amount, 'ether')}ETH to Linea`, 'green');
@@ -32,7 +32,7 @@ export const bridgeETHToEthereum = async(privateKey) => {
     const amountTx = add(amount, fee);
     
     await dataBridgeLinea(amount, fee, address).then(async(res) => {
-        await sendEVMTX(info.rpcLinea, 0, res.estimateGas, res.addressContract, amountTx, res.encodeABI, privateKey, gasPrice).then(res => {
+        await sendEVMTX(info.rpcLinea, res.estimateGas, res.addressContract, amountTx, res.encodeABI, privateKey, gasPrice).then(res => {
             writeBridgeInfo('historyBridge.json', res.logs[0].data, address);
             log('log', `Successful Write Info Bridge for Claim`);
         });
@@ -55,7 +55,7 @@ export const claimETHMainnet = async(file, privateKey) => {
     const gasPriceEthereum = await getTrueGasPrice(info.rpcEthereum);
     const priorityFee = generateRandomAmount(0.05, 0.1, 2).toString();
     await dataClaimBridgeMainnet(value, nonce, address).then(async(res) => {
-        await sendEVMTX(info.rpcEthereum, 2, res.estimateGas, res.addressContract, res.amountTx, res.encodeABI, privateKey, gasPriceEthereum, priorityFee);
+        await sendEVMTX(info.rpcEthereum, res.estimateGas, res.addressContract, res.amountTx, res.encodeABI, privateKey, gasPriceEthereum, priorityFee);
     });
 
     log('log', `Successful Claim ${fromWei(value, 'ether')}ETH in Ethereum`, 'green');

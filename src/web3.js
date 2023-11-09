@@ -172,16 +172,17 @@ export const getTxData = async(rpc, tx) => {
     return transaction.logs;
 }
 
-export const sendEVMTX = async(rpc, typeTx, gasLimit, toAddress, value, data, privateKey, maxFeeOrGasPrice, maxPriorityFee) => {
+export const sendEVMTX = async(rpc, gasLimit, toAddress, value, data, privateKey, maxFeeOrGasPrice, maxPriorityFee) => {
     const w3 = new Web3(new Web3.providers.HttpProvider(rpc));
     const fromAddress = privateToAddress(privateKey);
+    const typeTx = rpc == info.rpcLinea ? 0 : 2;
     let tx;
     
     if (typeTx == 0) {
         tx = {
             'from': fromAddress,
             'gas': gasLimit,
-            'gasPrice': w3.utils.toWei(maxFeeOrGasPrice, 'Gwei'),
+            'gasPrice': w3.utils.toWei(maxFeeOrGasPrice, 'gwei'),
             'chainId': await w3.eth.getChainId(),
             'to': toAddress,
             'nonce': await w3.eth.getTransactionCount(fromAddress),
@@ -192,8 +193,8 @@ export const sendEVMTX = async(rpc, typeTx, gasLimit, toAddress, value, data, pr
         tx = {
             'from': fromAddress,
             'gas': gasLimit,
-            'maxFeePerGas': w3.utils.toWei(maxFeeOrGasPrice, 'Gwei'),
-            'maxPriorityFeePerGas': w3.utils.toWei(maxPriorityFee, 'Gwei'),
+            'maxFeePerGas': w3.utils.toWei(maxFeeOrGasPrice, 'gwei'),
+            'maxPriorityFeePerGas': w3.utils.toWei(maxPriorityFee, 'gwei'),
             'chainId': await w3.eth.getChainId(),
             'to': toAddress,
             'nonce': await w3.eth.getTransactionCount(fromAddress),

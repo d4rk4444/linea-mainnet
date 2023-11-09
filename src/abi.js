@@ -487,3 +487,59 @@ export const iziAbi = [
         ]
     },
 ];
+
+export const metamaskAbi = [
+    {
+        "type":"function",
+        "name":"swap",
+        "inputs": [
+            {"name": "rootHash", "type": "string"},
+            {"name": "destinationChainId", "type": "address"},
+            {"name": "totalAmount", "type": "uint256"},
+            {"name": "destinationChainId", "type": "bytes"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"bridge",
+        "inputs": [
+            {"name": "rootHash", "type": "string"},
+            {"name": "destinationChainId", "type": "address"},
+            {"name": "totalAmount", "type": "uint256"},
+            {"name": "destinationChainId", "type": "bytes"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"getAmountsOut",
+        "inputs": [
+            {"name":"amountIn","type":"uint256"},
+            {"name":"path","type":"address[]"}
+        ],
+        "outputs": [
+            {"name":"amounts","type":"uint256[]"}
+        ]
+    },
+    {
+        "type":"function",
+        "name":"startBridgeTokensViaHopL1ERC20Min",
+        "inputs": [
+            {"name": "transactionId", "type": "bytes8"},
+            {"name": "receiver", "type": "address"},
+            {"name": "destinationChainId", "type": "uint256"},
+            {"name": "sendingAssetId", "type": "uint256"},
+            {"name": "minAmount", "type": "uint256"},
+            {"name": "destinationAmountOutMin", "type": "uint256"},
+            {"name": "relayer", "type": "address"},
+            {"name": "relayerFee", "type": "uint256"},
+            {"name": "hopBridge", "type": "address"},
+        ]
+    },
+    {
+        "type":"function",
+        "name":"depositToLido",
+        "inputs": [
+            {"name": "maxFeeRate", "type": "uint256"}
+        ]
+    },
+];

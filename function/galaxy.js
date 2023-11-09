@@ -18,7 +18,7 @@ export const mintOwltoLineaGalaxyNFT = async(privateKey) => {
                 property.prepareParticipate.signature,
                 property.prepareParticipate.spaceStation,
                 address).then(async(res) => {
-                    await sendEVMTX(info.rpcLinea, 0, res.estimateGas, res.addressContract, null, res.encodeABI, privateKey, gasPrice);
+                    await sendEVMTX(info.rpcLinea, res.estimateGas, res.addressContract, null, res.encodeABI, privateKey, gasPrice);
             });
             log('log', 'Successful Claim Owlto x Linea Bridger NFT', 'green');
         } else {

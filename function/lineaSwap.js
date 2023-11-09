@@ -11,7 +11,7 @@ export const swapETHToTokenLineaSwap = async(addressToken, privateKey) => {
     const gasPrice = await getTrueGasPrice(info.rpcLinea);
     
     await dataSwapETHToToken(addressToken, amount, info.LineaSwapRouter, address, info.slippageSwap).then(async(res) => {
-        await sendEVMTX(info.rpcLinea, 0, res.estimateGas, res.addressContract, amount, res.encodeABI, privateKey, gasPrice);
+        await sendEVMTX(info.rpcLinea, res.estimateGas, res.addressContract, amount, res.encodeABI, privateKey, gasPrice);
     });
 
     log('log', `Successful Swap ${fromWei(amount, 'ether')}ETH to ${ticker} [LineaSwap]`, 'green');
@@ -33,7 +33,7 @@ export const swapTokenToETHLineaSwap = async(addressToken, privateKey) => {
         allowance = Number(allowance);
         if (allowance < amountToken) {
             await dataApprove(info.rpcLinea, addressToken, info.LineaSwapRouter, amountToken, address).then(async(res) => {
-                await sendEVMTX(info.rpcLinea, 0, res.estimateGas, addressToken, null, res.encodeABI, privateKey, gasPrice);
+                await sendEVMTX(info.rpcLinea, res.estimateGas, addressToken, null, res.encodeABI, privateKey, gasPrice);
             });
             log('log', `Successful Approve ${ticker} [LineaSwap]`, 'green');
         } else {
@@ -43,7 +43,7 @@ export const swapTokenToETHLineaSwap = async(addressToken, privateKey) => {
     await timeout(info.pauseTime);
 
     await dataSwapTokenToETH(addressToken, amountToken, info.LineaSwapRouter, address, info.slippageSwap).then(async(res) => {
-        await sendEVMTX(info.rpcLinea, 0, res.estimateGas, res.addressContract, null, res.encodeABI, privateKey, gasPrice);
+        await sendEVMTX(info.rpcLinea, res.estimateGas, res.addressContract, null, res.encodeABI, privateKey, gasPrice);
     });
     log('log', `Successful Swap ${parseFloat(amountToken / 10**decimal).toFixed(4)}${ticker} to ETH [LineaSwap]`, 'green');
 }

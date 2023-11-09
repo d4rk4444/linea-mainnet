@@ -27,8 +27,10 @@ export const generateRandomAmount = (min, max, num) => {
 export const info = {
     rpcEthereum: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     rpcLinea: `https://linea-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+    rpcOptimism: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     explorerEthereum: 'https://etherscan.io/tx/',
     explorerLinea: 'https://lineascan.build/tx/',
+    explorerOptimism: 'https://optimistic.etherscan.io/tx/',
     pauseTime: generateRandomAmount(process.env.TIMEOUT_ACTION_SEC_MIN * 1000, process.env.TIMEOUT_ACTION_SEC_MAX * 1000, 0),
     increaseGasPrice: Number(process.env.Increase_Gas_Price),
     needGasPrice: Number(process.env.Gas_Price_Max),
@@ -55,6 +57,7 @@ export const info = {
     USDC: '0x176211869cA2b568f2A7D4EE941E073a821EE1ff',
     USDT: '0xa219439258ca9da29e9cc4ce5596924745e12b93',
     Lineans: '0xda4c3eb39707ad82ea7a31afd42bdf850fed8f41',
+    MMBridgeOptimism: '0xB90357f2b86dbfD59c3502215d4060f71DF8ca0e',
     domenLenghtMax: process.env.Length_Max,
 }
 

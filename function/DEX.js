@@ -10,7 +10,7 @@ export const wrapETH = async(rpc, privateKey) => {
     const gasPrice = await getTrueGasPrice(rpc);
     
     await dataWrapETH(amount, address).then(async(res) => {
-        await sendEVMTX(rpc, 0, res.estimateGas, info.WETH, amount, res.encodeABI, privateKey, gasPrice);
+        await sendEVMTX(rpc, res.estimateGas, info.WETH, amount, res.encodeABI, privateKey, gasPrice);
     });
 
     log('log', `Successful Wrap ${amount}ETH`, 'green');
